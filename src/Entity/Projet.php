@@ -29,6 +29,31 @@ class Projet
      */
     private $equipe;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $etat;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $niveau;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateLancement;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $dureePrevue;
+
     public function __construct()
     {
         $this->equipe = new ArrayCollection();
@@ -77,6 +102,66 @@ class Projet
                 $equipe->setProjet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getNiveau(): ?float
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(?float $niveau): self
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getDateLancement(): ?\DateTimeInterface
+    {
+        return $this->dateLancement;
+    }
+
+    public function setDateLancement(?\DateTimeInterface $dateLancement): self
+    {
+        $this->dateLancement = $dateLancement;
+
+        return $this;
+    }
+
+    public function getDureePrevue(): ?int
+    {
+        return $this->dureePrevue;
+    }
+
+    public function setDureePrevue(?int $dureePrevue): self
+    {
+        $this->dureePrevue = $dureePrevue;
 
         return $this;
     }

@@ -17,16 +17,21 @@
                 <nav class="navbar navbar-light bg-light">
                         <a class="navbar-brand" href="{{ path('home') }}">Accueil</a>
                         {% if app.user %}
-                                {#<a class="btn btn-outline-info" href="{{ path('membre') }}">Page membre</a>#}
+                                {#<a class="btn btn-outline-info" href="{{ path('membre') }}">Page membre</a>
                                 {% if is_granted('ROLE_ADMIN') %}
                                         <a class="btn btn-outline-warning" href="{{ path('admin') }}">Page admin</a>
-                                {% endif %}
+                                {% endif %}#}
                                 <div>
                                         Bonjour {{ app.user.username }} <a class="btn btn-sm btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                               {#{% if is_granted('ROLE_ADMIN') %} #}
+                                       <a class="btn btn-primary mt-1" href="{{ path('utilisateur_edit', {'id': app.user.id}) }}">Modifier mon compte</a>
+                                {#{% endif %} #}
+                                
                                 </div>
                         {% else %}
                                 <div>
-                                        <a class="btn btn-sm btn-primary" href="{{ path('utilisateur_new') }}">S'inscrire</a>
+                                        <a class="btn btn-sm btn-primary" href="{{ path('utilisateur_new') }}">S'inscrire en tant que membre</a>
+                                        <a class="btn btn-sm btn-primary" href="{{ path('utilisateur_new_admin') }}">S'inscrire en tant que admin</a>
                                         <a class="btn btn-sm btn-success" href="{{ path('app_login') }}">Se connecter</a>
                                 </div>
                         {% endif %}

@@ -9,6 +9,15 @@
                 {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
                 {# utilisation de classes bootstrap pour la mise en forme #}
                         <div class="row">
+                         <div class="col-12">
+                                        {{ form_label(form.nom) }}
+                                        {{ form_widget(form.nom) }}
+                                </div>
+                                 <div class="col-12">
+                                        {{ form_label(form.prenom) }}
+                                        {{ form_widget(form.prenom) }}
+                                </div>
+
                                 <div class="col-12">
                                         {{ form_label(form.username) }}
                                         {{ form_widget(form.username) }}
@@ -26,8 +35,11 @@
                 {{ form_end(form) }}
         </fieldset>
 
-        <a class="btn btn-outline-primary" href="{{ path('membre') }}">Page membre</a>
-
+      {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-outline-primary" href="{{ path('admin') }}">Page admin</a>
+ {% else %}
+   <a class="btn btn-outline-primary" href="{{ path('membre') }}">Page membre</a>
+  {% endif %}
         {{ include('utilisateur/_delete_form.html.twig') }}
 
 {% endblock %}

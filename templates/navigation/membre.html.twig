@@ -1,9 +1,185 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Page membre{% endblock %}
+{% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+            <style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+
+/****** popup ********/
+
+.popup .overlay {
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,0.7);
+  z-index:1;
+  display:none;
+}
+ 
+.popup .content {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:#fff;
+  width:95%;
+  max-width:200px;
+  height:500px;
+  z-index:2;
+  text-align:center;
+  padding:20px;
+  box-sizing:border-box;
+  font-family:"Open Sans",sans-serif;
+}
+ 
+.popup .close-btn {
+  cursor:pointer;
+  position:absolute;
+  right:20px;
+  top:20px;
+  width:30px;
+  height:30px;
+  background:#222;
+  color:#fff;
+  font-size:25px;
+  font-weight:600;
+  line-height:30px;
+  text-align:center;
+  border-radius:50%;
+}
+ 
+.popup.active .overlay {
+  display:block;
+}
+ 
+.popup.active .content {
+  transition:all 300ms ease-in-out;
+  transform:translate(-50%,-50%) scale(1);
+}
+ 
+button {
+  position:absolute;
+  top:15%;
+  left:50%;
+  transform:translate(-90%,-50%);
+  padding:15px;
+  font-size:18px;
+  border:2px solid #222;
+  color:#222;
+  text-transform:uppercase;
+  font-weight:600;
+  background:#fff;
+}
+JavaScript
+</style>
+        {% endblock %}
+
 
 {% block body %}
-        <h1>Mon espace membre</h1>
+ <div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+<a class="btn btn-primary" href="{{ path('Liste_Projets') }}">Liste Des Projets</a>
+{#   start popup   #}
+<button  onclick="togglePopup()" >Show Popup</button>
+
+<div class="popup" id="popup-1">
+  <div class="overlay"></div>
+  <div class="content">
+    <div class="close-btn" onclick="togglePopup()">×</div>
+    <h1>Title</h1>
+    {#<h1>Projets</h1>
+
+        <table class="table">
+                <tbody>
+                <tr>
+                                <th>Id</th>
+                                <th>Titre</th>
+                                  <th>Etat</th>
+                                   <th>niveau</th>
+                                 
+                                     <th>Durée prévue<th>
+                        
+                {% for projet in projets  %}
+                         
+                </tr> 
+                <tr>                 
+                                <td>{{ projet.id }}</td>
+                                <td>{{ projet.titre }}</td>
+                                <td>{{ projet.etat }}</td>
+                                <td>{{ projet.niveau }}</td>
+                              
+                                <td>{{ projet.dureePrevue }}</td>
+                                <td> <a class="btn btn-primary" href="{{ path('Liste_Equipes') }}">List Equipes</a></td>
+                </tr>
+                         
+                               
+                        
+                        {% endfor %}
+
+                </tbody>
+        </table>#}
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo aspernatur laborum rem sed laudantium excepturi veritatis voluptatum architecto, dolore quaerat totam officiis nisi animi accusantium alias inventore nulla atque debitis.</p>
+  </div>
+</div>
+ 
+{#   end popup #}
+
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+<div>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span></div>
+
+      <div>  <h1>Mon espace membre</h1>
 
         <h2>{{ app.user.username }} voici ton espace personnel</h2>
 
@@ -23,7 +199,25 @@
                 <li>Aliquam tincidunt mauris eu risus.</li>
                 <li>Vestibulum auctor dapibus neque.</li>
         </ol>
+</div>
+
+      {#  <a class="btn btn-primary" href="{{ path('utilisateur_edit', {'id': app.user.id}) }}">Modifier mon compte</a>#}
+
+{% endblock %}
+{% block javascripts %}
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
 
 
-        <a class="btn btn-primary" href="{{ path('utilisateur_edit', {'id': app.user.id}) }}">Modifier mon compte</a>
+<script>
+function togglePopup(){
+  document.getElementById("popup-1").classList.toggle("active");
+}</script>
 {% endblock %}

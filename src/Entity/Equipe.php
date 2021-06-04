@@ -31,22 +31,23 @@ class Equipe
     private $projet;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="equipes")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="equipes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $gerant;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="equipe")
+     * @ORM\ManyToMany(targetEntity=Utilisateur::class, inversedBy="equipe")
      */
-    private $user;
-
-   
+    private $membre;
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
+        $this->membre = new ArrayCollection();
     }
+
+    
+    
 
    
 
@@ -79,12 +80,12 @@ class Equipe
         return $this;
     }
 
-    public function getGerant(): ?User
+    public function getGerant(): ?Utilisateur
     {
         return $this->gerant;
     }
 
-    public function setGerant(?User $gerant): self
+    public function setGerant(?Utilisateur $gerant): self
     {
         $this->gerant = $gerant;
 
@@ -92,35 +93,34 @@ class Equipe
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Utilisateur[]
      */
-    public function getUser(): Collection
+    public function getMembre(): Collection
     {
-        return $this->user;
+        return $this->membre;
     }
 
-    public function addUser(User $user): self
+    public function addMembre(Utilisateur $membre): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setEquipe($this);
+        if (!$this->membre->contains($membre)) {
+            $this->membre[] = $membre;
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeMembre(Utilisateur $membre): self
     {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getEquipe() === $this) {
-                $user->setEquipe(null);
-            }
-        }
+        $this->membre->removeElement($membre);
 
         return $this;
     }
 
+    
+
+    
+
+    
     
 
   

@@ -74,11 +74,7 @@ class Document
      */
     private $tag;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $auteur;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity=Repertoire::class, inversedBy="document")
@@ -284,17 +280,7 @@ class Document
         return $this;
     }
 
-    public function getAuteur(): ?User
-    {
-        return $this->auteur;
-    }
-
-    public function setAuteur(?User $auteur): self
-    {
-        $this->auteur = $auteur;
-
-        return $this;
-    }
+   
 
     public function getRepertoire(): ?Repertoire
     {

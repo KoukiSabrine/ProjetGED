@@ -10,6 +10,19 @@
                 {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
                 {# utilisation de classes bootstrap pour la mise en forme #}
                 <div class="row">
+
+                <div class="col-12">
+                                {{ form_label(form.nom) }}
+                                {{ form_widget(form.nom) }}
+                                {{ form_errors(form.nom) }}
+                        </div>
+                        <div class="col-12">
+                                {{ form_label(form.prenom) }}
+                                {{ form_widget(form.prenom) }}
+                                {{ form_errors(form.prenom) }}
+                        </div>
+
+
                         <div class="col-12">
                                 {{ form_label(form.username) }}
                                 {{ form_widget(form.username) }}
@@ -24,6 +37,7 @@
                                 <input type="password" id="verifpass" required>
                         </div>
                 </div>
+                
                 <button class="btn btn-success">{{ button_label|default('S\'enregistrer') }}</button>
                 {{ form_end(form) }}
         </fieldset>

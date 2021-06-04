@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Equipes</h1>
+
+        <table class="table">
+                <tbody>
+                <tr>
+                                
+                                <th>Nom</th>
+                                  <th>Projet</th>
+                                   <th>Gérant</th>
+                                  
+                                     
+                        
+                {% for equipe in equipes  %}
+                         
+                </tr> 
+                <tr>                 
+                                
+                                <td>{{ equipe.nom }}</td>
+                                <td>{{ equipe.projet.titre }}</td>
+                                <td>{{ equipe.gerant.nom }}</td>
+                                <td> <a class="btn btn-primary" href="{{ path('utilisateur_list') }}">List Utilisateurs</a></td>
+                                
+                </tr>
+                         
+                               
+                        
+                        {% endfor %}
+
+                </tbody>
+        </table>
+
+        
+
+        
+
+       
+{% endblock %}

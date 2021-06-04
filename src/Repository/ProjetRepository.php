@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repository;
+//namespace AppBundle\Repository;
 
 use App\Entity\Projet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
