@@ -3,8 +3,11 @@
 namespace App\Repository;
 //namespace AppBundle\Repository;
 
+use App\Entity\Equipe;
 use App\Entity\Projet;
+use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,22 +23,147 @@ class ProjetRepository extends ServiceEntityRepository
         parent::__construct($registry, Projet::class);
     }
 
-    // /**
-    //  * @return Projet[] Returns an array of Projet objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+     /**
+      * @return Projet[] Returns an array of Projet objects
+      */
+
+
+
+      /*public function findOneEquipe($id)
+      {
+        $qb = $this->createQueryBuilder('e');
+       
+        $qb->where('e.id = :id')
+             ->setParameter('id', $id);
+       
+        return $qb
+             ->getQuery()
+             ->getResult() ;
+      }*/
+
+
+
+      public function getProjetsByUserId($x)  {
+        $em = $this->getEntityManager();
+        $rsm = new ResultSetMapping();
+        $sql2 = "SELECT DISTINCT  p.id , p.titre ,p.etat , p.niveau  FROM projet as p 
+               INNER JOIN equipe as e ON p.id=e.projet_id 
+               INNER JOIN equipe_utilisateur as m ON m.equipe_id=e.id 
+               WHERE m.utilisateur_id = ?";
+        $rsm->addScalarResult('id', 'id');
+        $rsm->addScalarResult('titre', 'titre');
+        $rsm->addScalarResult('etat', 'etat');
+        $rsm->addScalarResult('niveau', 'niveau');
+        //$rsm->addScalarResult('dureePrevue', 'dureePrevue');
+        $query = $em->createNativeQuery($sql2, $rsm);
+        $query->setParameter(1, $x);        
+        return $query->getResult();
     }
-    */
+
+    public function getEquipesByProjetId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT e.id,e.nom FROM equipe as e
+           INNER JOIN projet as p ON p.id=e.projet_id 
+           INNER JOIN equipe_utilisateur as u ON u.equipe_id=e.id 
+           WHERE p.id = ?" ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('nom', 'nom');
+      //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+      $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1,$x);        
+        return $query->getResult();
+
+    }
+   
+
+
+    public function getUsersByEquipeId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT u.id,u.nom,u.prenom FROM utilisateur as u
+           INNER JOIN equipe_utilisateur as e ON e.utilisateur_id=u.id
+           INNER JOIN equipe as e2 ON e.equipe_id=e2.id
+           WHERE e2.id = ?" ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('nom', 'nom');
+      $rsm->addScalarResult('prenom', 'prenom');
+      //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+      $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1,$x);        
+        return $query->getResult();
+
+    }
+
+    public function getRepertoiresByEquipeId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT r.id,r.nom FROM repertoire as r
+           INNER JOIN equipe as e ON e.id=r.equipe_id 
+           WHERE r.id = ?" ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('nom', 'nom');
+     
+      //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+      $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1,$x);        
+        return $query->getResult();
+
+    }
+
+
+
+    
+     
+    public function findEquipesByUser()
+    {   
+      $query = $this->getEntityManager()->createQuery("SELECT u FROM Utilisateur u JOIN u.equipe e WHERE ");
+      //$users = $query->getResult();
+        // $query=$this
+         /*->createQueryBuilder('p')
+         ->join('p.equipe','e')
+         ->Where('e.membre = :$utilisateur');*/
+         
+         //if()
+        return 
+            $query
+            ->getResult();
+          //$this->createQueryBuilder('p')
+            //->andWhere('p.exampleField = :val')
+           // ->setParameter('val', $value)
+            //->orderBy('p.id', 'ASC')
+          //  ->setMaxResults(10)
+         
+            
+        /*return $this->getEntityManager()
+        ->createQuery('SELECT e FROM Equipe e where e.equipe.findOneEquipe()=?1')
+        ->getResult()
+        ;*/
+    }
+
+
+    
+    /*$projets=array();
+    public function findProjetByUser2($utilisateur)
+    
+    {   
+        $equipes=$utilisateur->getEquipes();
+      foreach ($equipes as $equipe) {
+          $pr=$equipe->getProjet();
+          $projets->setProjet($pr);
+          
+      }
+      return $projets;
+      
+    }*/
+   
+    
+
+    
+    
 
     /*
     public function findOneBySomeField($value): ?Projet

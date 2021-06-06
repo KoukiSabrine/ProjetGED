@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Equipe;
+use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,6 +24,9 @@ class EquipeRepository extends ServiceEntityRepository
     //  * @return Equipe[] Returns an array of Equipe objects
     //  */
     /*
+
+
+    
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('e')
@@ -35,6 +39,29 @@ class EquipeRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findEquipeByProjet(Utilisateur $utilisateur)
+    {   
+         $query=$this
+         ->createQueryBuilder('e')
+         ->select('e','p')
+         ->join('e.membre','u')
+         ->andWhere('e.membre = :$utilisateur');
+         
+         //if()
+        return 
+          //$this->createQueryBuilder('p')
+            //->andWhere('p.exampleField = :val')
+           // ->setParameter('val', $value)
+            //->orderBy('p.id', 'ASC')
+          //  ->setMaxResults(10)
+         
+            $query->getQuery()
+            ->getResult()
+        /*return $this->getEntityManager()
+        ->createQuery('SELECT e FROM AppBundle:Equipe e where e.equipe.findOneEquipe()=?1')
+        ->getResult()*/
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Equipe

@@ -8,7 +8,7 @@
         <table class="table">
                 <tbody>
                 <tr>
-                                <th>Id</th>
+                             {#   <th>Id</th>
                                 <td>{{ utilisateur.id }}</td>
                         </tr>
                         <tr>
@@ -21,14 +21,33 @@
                         </tr>
                         <tr>
                                 <th>Password</th>
-                                <td>{{ utilisateur.password }}</td>
+                                <td>{{ utilisateur.password }}</td>#}
+
+
+                                 <th>Id</th>
+                                <th>nom</th>
+                                  <th>prenom</th>
+                                 
+                                   
+                        
+                {% for user in users  %}
+                         
+                </tr> 
+                <tr>                 
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.nom }}</td>
+                                <td>{{ user.prenom }}</td>
+                                
                         </tr>
+                           {% endfor %}
+
+                
                 </tbody>
         </table>
 
-        <a class="btn btn-outline-primary mt-2" href="{{ path('membre') }}">Page membre</a>
+        {#<a class="btn btn-outline-primary mt-2" href="{{ path('membre') }}">Page membre</a>
 
         <a class="btn btn-warning mt-2" href="{{ path('utilisateur_edit', {'id': utilisateur.id}) }}">Modifier</a>
 
-        {{ include('utilisateur/_delete_form.html.twig') }}
+        {{ include('utilisateur/_delete_form.html.twig') }}#}
 {% endblock %}
