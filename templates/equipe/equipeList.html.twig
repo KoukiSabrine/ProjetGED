@@ -9,23 +9,30 @@
                 <tbody>
                 <tr>
                                 
-                                <th>Nom</th>
-                                  <th>Projet</th>
+                                <th>Id</th>
+                                  <th>Nom</th>
+                                   <th>Projet</th>
                                    <th>Gérant</th>
                                   
-                                     
+                                      </tr> 
                         
                 {% for equipe in equipes  %}
                          
-                </tr> 
+               
                 <tr>                 
                                 
                                 <td>{{ equipe.id }}</td>
                                 <td>{{ equipe.nom }}</td>
-                                {#<td>{{ equipe.gerant.nom }}</td>  #}
-                                <td> <a class="btn btn-primary" href="{{ path('Liste_Users') }}">List Utilisateurs</a></td>
-                                <td> <a class="btn btn-primary" href="{{ path('Liste_Repertoires') }}">List Repertoires</a></td>
-                                
+                                <td>{{ equipe.projet.titre }}</td>
+                                <td>{{ equipe.gerant.nom }}</td>
+                                 
+                        
+                                <td> <a class="btn btn-primary" href="{{ path('Liste_Repertoires', {id: equipe.id}) }}">List Repertoires</a></td>
+                                {% if u in equipe.getMembre()  %} 
+                                <td> <a class="btn btn-primary" href="{{ path('Liste_Users', {id: equipe.id}) }}">List Utilisateurs</a></td>
+                                 {% endif %}  
+                               
+                               
                 </tr>
                          
                                

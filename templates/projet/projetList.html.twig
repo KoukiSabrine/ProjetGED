@@ -12,8 +12,8 @@
                                 <th>Titre</th>
                                   <th>Etat</th>
                                    <th>niveau</th>
-                                  {# <th>Créé à <th>
-                                    <th>Date de lancement<th>#}
+                                  <th>Créé à <th>
+                                    <th>Date de lancement<th>
                                      <th>Durée prévue<th>
                         
                 {% for projet in projets  %}
@@ -24,9 +24,13 @@
                                 <td>{{ projet.titre }}</td>
                                 <td>{{ projet.etat }}</td>
                                 <td>{{ projet.niveau }}</td>
-                               {# <td>{{ projet.dureePrevue }}</td>#}
+                                <td>{{ projet.createdAt }}</td>
+                                <td>{{ projet.dateLancement }}</td>
+                                <td>{{ projet.dureePrevue }}</td>
+                               
+                                 
                                 
-                                <td> <a class="btn btn-primary" href="{{ path('Liste_Equipes') }}">List Equipes</a></td>
+                                <td> <a class="btn btn-primary" href="{{ path('Liste_Equipes', {id: projet.id}) }}">List Equipes</a></td>
                 </tr>
                          
                                

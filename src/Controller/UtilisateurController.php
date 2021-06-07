@@ -74,29 +74,36 @@ class UtilisateurController extends AbstractController
          /*****************     Equipe      ********************/
 
           /**
-     * @Route("/showEquipe", name="Liste_Equipes", methods={"GET"})
+     * @Route("/{id}/showEquipe", name="Liste_Equipes", methods={"GET"})
      *
      */
-       public function showEquipe(ProjetRepository $projetRepository): Response
+       public function showEquipe(Projet $projet): Response
     {       
-        //$utilisateur = $this->getUser();
-        $list2=$projetRepository->getEquipesByProjetId(3);
+        //$id = $this->getUser()->getId();
+        //$id2=$projetRepository->getProjetIdByUserId($id);
+        //$projet=new Projet();
+        //$id = $projet->getId();
+        //$list2=$projetRepository->getEquipesByProjetId($id);
+        $list = $projet->getEquipe();
+        $utilisateur = $this->getUser();
         return $this->render('equipe/equipeList.html.twig',  [
-                'equipes' =>  $list2
+                'equipes' =>  $list,
+                'u' => $utilisateur
         ]);  
     }
 
      /*****************     User      ********************/
 
           /**
-     * @Route("/showUser", name="Liste_Users", methods={"GET"})
+     * @Route("/{id}/showUser", name="Liste_Users", methods={"GET"})
      *
      */
 
-    public function showUser(ProjetRepository $projetRepository): Response
+    public function showUser(ProjetRepository $projetRepository,Equipe $equipe): Response
     {       
-        //$utilisateur = $this->getUser();
-        $list=$projetRepository->getUsersByEquipeId(2);
+        
+        //$list=$projetRepository->getUsersByEquipeId(2);
+        $list=$equipe->getMembre();
         return $this->render('utilisateur/show.html.twig',  [
                 'users' =>  $list
         ]);  
@@ -107,33 +114,39 @@ class UtilisateurController extends AbstractController
      /*****************     User      ********************/
 
           /**
-     * @Route("/showRepertoire", name="Liste_Repertoires", methods={"GET"})
+     * @Route("/{id}/showRepertoire", name="Liste_Repertoires", methods={"GET"})
      *
      */
 
-    public function showRepertoire(ProjetRepository $projetRepository): Response
+    public function showRepertoire(ProjetRepository $projetRepository,Equipe $equipe): Response
     {       
         //$utilisateur = $this->getUser();
-        $list=$projetRepository->getRepertoiresByEquipeId(1);
+        $idEq=$equipe->getId();
+     $list=$projetRepository->getRepertoiresByEquipeId($idEq);
+     //$list=$
         return $this->render('repertoire2/repertoireList.html.twig',  [
                 'repertoires' =>  $list
         ]);  
     }
 
 
+
+     
+
     /*********** users   *******/
 
      /**
-         * @Route("/listeUsers", name="utilisateur_list", methods={"GET"})
+         * @Route("/{id}/listeUsers", name="utilisateur_list", methods={"GET"})
          */
-        public function liste(UtilisateurRepository $utilisateurRepository): Response
+        public function liste(Equipe $equipe): Response
         {
                 //accès géré dans le security.yaml
                /* return $this->render('utilisateur/show.html.twig', [
                 'utilisateur' => $utilisateur,
                 ]);*/
+                $list=$equipe->getMembre();
                 return $this->render('utilisateur/index.html.twig', [
-                        'utilisateurs' => $utilisateurRepository->findAll(),
+                        'utilisateurs' => $list,
                 ]);
         }
 

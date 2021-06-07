@@ -46,7 +46,7 @@ class ProjetRepository extends ServiceEntityRepository
       public function getProjetsByUserId($x)  {
         $em = $this->getEntityManager();
         $rsm = new ResultSetMapping();
-        $sql2 = "SELECT DISTINCT  p.id , p.titre ,p.etat , p.niveau  FROM projet as p 
+        $sql2 = "SELECT DISTINCT  p.id , p.titre ,p.etat , p.niveau ,p.duree_prevue,p.created_at ,p.date_lancement FROM projet as p 
                INNER JOIN equipe as e ON p.id=e.projet_id 
                INNER JOIN equipe_utilisateur as m ON m.equipe_id=e.id 
                WHERE m.utilisateur_id = ?";
@@ -54,7 +54,9 @@ class ProjetRepository extends ServiceEntityRepository
         $rsm->addScalarResult('titre', 'titre');
         $rsm->addScalarResult('etat', 'etat');
         $rsm->addScalarResult('niveau', 'niveau');
-        //$rsm->addScalarResult('dureePrevue', 'dureePrevue');
+        $rsm->addScalarResult('duree_prevue', 'dureePrevue');
+        $rsm->addScalarResult('created_at', 'createdAt');
+        $rsm->addScalarResult('date_lancement', 'dateLancement');
         $query = $em->createNativeQuery($sql2, $rsm);
         $query->setParameter(1, $x);        
         return $query->getResult();
@@ -63,12 +65,14 @@ class ProjetRepository extends ServiceEntityRepository
     public function getEquipesByProjetId($x)  {
       $em = $this->getEntityManager();
       $rsm = new ResultSetMapping();
-      $sql=" SELECT e.id,e.nom FROM equipe as e
+      $sql=" SELECT e.id,e.nom,e.gerant_id FROM equipe as e
            INNER JOIN projet as p ON p.id=e.projet_id 
-           INNER JOIN equipe_utilisateur as u ON u.equipe_id=e.id 
-           WHERE p.id = ?" ;
+           WHERE p.id = ? " ;
       $rsm->addScalarResult('id', 'id');
       $rsm->addScalarResult('nom', 'nom');
+      $rsm->addScalarResult('gerant_id', 'gerant_id');
+
+      //$rsm->addScalarResult('u.nom', 'ger');
       //$rsm->addScalarResult('gerant', 'gerant.nom');
 
       $query = $em->createNativeQuery($sql, $rsm);
@@ -77,6 +81,20 @@ class ProjetRepository extends ServiceEntityRepository
 
     }
    
+
+    public function getProjetIdByUserId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql2 = "SELECT p.id  FROM projet as p 
+             INNER JOIN equipe as e ON p.id=e.projet_id 
+             INNER JOIN equipe_utilisateur as m ON m.equipe_id=e.id 
+             WHERE m.utilisateur_id = ? ";
+      $rsm->addScalarResult('id', 'id');
+     
+      $query = $em->createNativeQuery($sql2, $rsm);
+      $query->setParameter(1, $x);        
+      return $query->getResult();
+  }
 
 
     public function getUsersByEquipeId($x)  {
@@ -102,7 +120,7 @@ class ProjetRepository extends ServiceEntityRepository
       $rsm = new ResultSetMapping();
       $sql=" SELECT r.id,r.nom FROM repertoire as r
            INNER JOIN equipe as e ON e.id=r.equipe_id 
-           WHERE r.id = ?" ;
+           WHERE e.id = ?" ;
       $rsm->addScalarResult('id', 'id');
       $rsm->addScalarResult('nom', 'nom');
      
@@ -118,32 +136,7 @@ class ProjetRepository extends ServiceEntityRepository
 
     
      
-    public function findEquipesByUser()
-    {   
-      $query = $this->getEntityManager()->createQuery("SELECT u FROM Utilisateur u JOIN u.equipe e WHERE ");
-      //$users = $query->getResult();
-        // $query=$this
-         /*->createQueryBuilder('p')
-         ->join('p.equipe','e')
-         ->Where('e.membre = :$utilisateur');*/
-         
-         //if()
-        return 
-            $query
-            ->getResult();
-          //$this->createQueryBuilder('p')
-            //->andWhere('p.exampleField = :val')
-           // ->setParameter('val', $value)
-            //->orderBy('p.id', 'ASC')
-          //  ->setMaxResults(10)
-         
-            
-        /*return $this->getEntityManager()
-        ->createQuery('SELECT e FROM Equipe e where e.equipe.findOneEquipe()=?1')
-        ->getResult()
-        ;*/
-    }
-
+    
 
     
     /*$projets=array();
