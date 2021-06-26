@@ -1,0 +1,32 @@
+{% extends "base-pdf.html.twig" %}
+
+{% block title %}Liste des données de {% endblock %}
+{% block body %}
+    <p>Data</p>
+    <table border=1>
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Taille</th>
+                <th scope="col">Url</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        
+            <tr>
+                <td>{{ document.nom }}</td>
+                <td>{{ document.etat}}</td>
+                <td>{{ document.auteur.nom }}</td>
+                 <td>{{ document.taille}}</td>
+                  <td>{{ document.file}}</td>
+                {#<td>{{ app.user.prenom }}</td>#}
+                
+               
+            </tr>
+           
+        </tbody>
+    </table>
+{% endblock %}

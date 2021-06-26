@@ -57,10 +57,16 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $equipe;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="auteur")
+     */
+    private $documents;
+
     public function __construct()
     {
         $this->equipes = new ArrayCollection();
         $this->equipe = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,4 +211,39 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->equipe;
     }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getAuteur() === $this) {
+                $document->setAuteur(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString() {
+        return $this->prenom;
+    }
+
+   
 }

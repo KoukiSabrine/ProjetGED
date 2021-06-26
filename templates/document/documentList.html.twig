@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}#}
+
+{% block body %}
+    <a class="btn btn-primary" href="{{ path('document_new') }}">Ajouter un Document</a>
+   <br></br>
+
+<table class="table">
+                <tbody>
+                
+                <tr>
+                              <th></th>
+                                <th>Id</th>
+                                <th>Nom</th>
+                                  <th>URL</th>
+                                   
+                        
+                {% for document in documents  %}
+                         
+                </tr> 
+                <tr>         
+                                  {% if  document.nom  | split('.')[1] |length ==4  %} 
+                                    
+                              <td><img src="/icon/{{ "#{document.nom | slice(-4, 4)}#{'.svg'} " }}" width=30 height=30 border=0> </td>
+
+                                 {% else %}
+                                 <td><img src="/icon/{{ "#{document.nom | slice(-3, 3)}#{'.svg'} " }}" width=30 height=30 border=0> </td>
+                                 {% endif %} 
+                              
+                                <td>{{ document.id }}</td>
+                                <td>{{ document.nom }}</td>
+                                <td>{{ document.url }}</td>
+                                
+                                <td><a class="btn btn-danger mt-2" href="{{ path('document_delete', {'id': document.id}) }}">Supprimer</a></td>
+                                <td><a class="btn btn-warning mt-2" href="{{ path('document_update', {'id': document.id}) }}">Modifier</a></td>
+                                {#<td><a class="btn btn-primary mt-2" href="{{ path('document_download', {'id': document.id}) }}">Télécharger</a></td>#}
+                                <td><a class="btn btn-primary mt-2" href="{{asset('images/' ~ document.nom)}}">Télécharger</a></td>
+                                <td><a class="btn btn-primary mt-2" href="{{ path('tag_new', {'id': document.id}) }}">Add Tag</a></td>
+
+
+
+                                
+                                
+                </tr>
+                         
+                               
+                        
+                        {% endfor %}
+
+                </tbody>
+        </table>
+        {% endblock %}

@@ -5,11 +5,17 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
+          
         {% block stylesheets %}
             {#{{ encore_entry_link_tags('app') }}#}
             <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
-        {% endblock %}
+             {#<link rel="stylesheet" href="/plugin2/bootstrap.min.css"/>#}
+            <link rel="stylesheet" href="/plugin2/css/demo.css"/>
+                      <link rel="stylesheet" href="/plugin2/css/metroStyle/metroStyle.css"/>
 
+          
+        {% endblock %}
+  
       
     </head>
     <body>
@@ -56,7 +62,15 @@
                                 integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
                         crossorigin="anonymous">
                         </script>
-                        <script src="/js/script.js"></script>
+                        {#<script src="/js/script.js"></script>#}
+                       {# <script src="/js/tree.js"></script> #}
+                        {# <script type="text/javascript" src="/plugin2/jquery-3.3.1.min.js"></script>
+                        <script type="text/javascript" src="/plugin2/jquery.ztree.core.min.js"></script>
+                        <script type="text/javascript" src="/plugin2/jquery.ztree.excheck.min.js"></script>#}
+                        
+
+
+                       
                 {% endblock %}
     </body>
 </html>

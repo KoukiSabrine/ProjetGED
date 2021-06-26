@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Document{% endblock %}
+
+{% block body %}
+        <h1>Modifier votre document</h1>
+        <fieldset>
+                <legend>Modification</legend>
+                {{ form_start(form) }}
+                {# utilisation de classes bootstrap pour la mise en forme #}
+                         <div class="row">
+                         {# <div class="col-12">
+                                        {{ form_label(form.nom) }}
+                                        {{ form_widget(form.nom) }}
+                                </div> #}
+                                
+                               
+                                
+                                
+                        </div>
+                        <button class="btn btn-success">{{ button_label|default('Mettre à jour') }}</button>
+                {{ form_end(form) }}
+        </fieldset>
+
+{% endblock %}

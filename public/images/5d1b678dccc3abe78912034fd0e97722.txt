@@ -1,0 +1,33 @@
+/*var setting = {
+    view: {
+        selectedMulti: true
+    },
+    check: {
+        enable: true,
+    },
+    data: {
+        simpleData: {
+            enable: true,// Whether to adopt a simple data mode
+            idKey: "id",//tree node ID name
+            pIdKey: "pid",//parent node ID name
+            rootPId: -1,//root node ID
+        }
+    }
+};
+$(function () {
+  // Load the ZTree tree built by the backend (the data format of the node has been formatted on the back end)
+  $.ajax({
+      url: 'data.json',
+      type: 'get',
+      dataType: "json",
+      success: (data) => {
+          console.log(data);
+          $.fn.zTree.init($("#tree"), setting, data);// Initialize the tree node, add the data acquired synchronously
+      },
+      error: (data) => {
+          alert(data.message);
+          alert("Oops!")
+      }
+  });
+});*/
+

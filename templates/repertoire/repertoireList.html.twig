@@ -1,24 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateur{% endblock %}
+{% block title %}Repertoire{% endblock %}
+ {% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+             {#<link rel="stylesheet" href="/plugin2/bootstrap.min.css"/>#}
+            <link rel="stylesheet" href="/plugin2/css/demo.css"/>
+            <link rel="stylesheet" href="/plugin2/css/metroStyle/metroStyle.css"/>
+            {#<link rel="stylesheet" href="/plugin2/css/metroStyle/zTreeStyle.css"/>#}
+             
 
+          
+        {% endblock %}
+ 
 {% block body %}
-    <h1>Projets</h1>
+    <h1>Repertoires</h1>
+    <a class="btn btn-primary" href="{{ path('repertoire_new') }}">Ajouter un Repertoire</a>
+   <br></br>
 
-        <table class="table">
+
+    <table class="table">
                 <tbody>
                 <tr>
                                 <th>Id</th>
                                 <th>Nom</th>
-                                 
-                                  
+                                  <th>Equipe</th>
+                                  <th>Sous Repertoires</th>
+                                   
+                        
                 {% for repertoire in repertoires  %}
                          
                 </tr> 
                 <tr>                 
                                 <td>{{ repertoire.id }}</td>
-                                <td>{{ repertoire.nom }}</td>
-                               
+                                <td>{{ repertoire.name}}</td>
+                                <td>{{ repertoire.equipe }}</td> 
+                                {#<td>{{ repertoire.repertoire }}</td>#}
+                                <td><a class="btn btn-primary" href="{{ path('Liste_SousRepertoires', {id: repertoire.id}) }}">List sousReps</a></td>
+                                <td><a class="btn btn-primary" href="{{ path('Liste_Documents', {id: repertoire.id}) }}">List Docs</a></td>
+
+
+                                    
+                                
                                 
                 </tr>
                          
@@ -28,10 +51,199 @@
 
                 </tbody>
         </table>
+    {#{% for repertoire in repertoires  %}
+    <div>{{ repertoire.id }}</div>
+
+    <div><a class="btn btn-primary" href="{{ path('Liste_Documents', {id: repertoire.id}) }}">List Docs</a><div>
+    {% endfor %} #}
+       
+       {#<a class="btn btn-primary" href="{{ path('Liste_Documents' , {id: repertoire.id }) }}" >List Doc</a>#}
+    
+     {#{{dump(documents)}}   #}
+   
+
+{#
+    <div class="zTreeDemoBackground">
+  <ul id="tree" class="ztree"></ul>
+</div>#}
+
+ {#<div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pt10">
+            <div class="well sidebar-nav ">
+                <ul id="planTree" class="ztree" style="border: 1px solid #617775;overflow-y: scroll;height: 500px;"></ul>
+        </div>
+    </div>#}
+{#<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pt20">
+     <div class="well sidebar-nav">
+    <ul id="user_tree" class="ztree" style="border: 1px solid #617775;overflow-y: scroll;height: 500px;width:230px;"></ul><div><p>jjjjjjjjjjjj</p></div>
+  </div>
+    </div>#}
+    
+  {#<input type="hidden" id="directoryList" value="{{directoryList}}""  />#}
+  {#<input type="hidden" id="directoryList" value="{{ directoryList }}" data-createDirectory="{{path('directory_create')}}" data-removeDirectory="{{path('directory_delete')}}" data-renameDirectory="{{path('directory_rename')}}" data-reloadDirectory="{{path('directory_reload')}}"  />#}
+
+
+
+       {# <table class="table">
+                <tbody>
+                <tr>
+                                
+                                <th>id</th>
+                                  <th>nom</th>
+                                   
+                                  
+                                     
+                        
+                {% for repertoire in repertoires  %}
+                         
+                </tr> 
+                <tr>                 
+                                
+                                <td>{{ repertoire.id }}</td>
+                                <td>{{ repertoire.nom }}</td>
+                                
+                                
+                                
+                                
+                </tr>
+                         
+                               
+                        
+                        {% endfor %}
+
+                </tbody>
+        </table>#}
 
         
 
         
+             
 
        
 {% endblock %}
+
+
+{% block javascripts %}
+  {#  {{ parent() }}
+    <script src="/js/rep.js"></script>#}
+    <script type="text/javascript" src="/plugin2/jquery-3.3.1.min.js"></script>
+     <script type="text/javascript" src="/plugin2/jquery.ztree.core.min.js"></script>
+     <script type="text/javascript" src="/plugin2/jquery.ztree.excheck.min.js"></script>
+    {# <script src="/js/tree.js"></script> #}
+
+
+
+     <script>
+     /* function reloadzNodes() {
+    $.ajax({
+        type: "GET",
+        url: "showRepJSON",
+        data: {},
+        success: function (returnData) {
+          var t = $("#user_tree");
+            t = $.fn.zTree.init(t, setting, zNodes);
+            console.log('reload>>>>' + returnData);           
+        }
+    });
+};*/
+//var zNodes=reloadzNodes();
+//var zNodes = JSON.parse($("#zNodes1").val());
+
+  var zTree;
+var setting = {
+  view: {
+    dblClickExpand: false,// Do you automatically expand the identity of the parent node when you double-click the node
+    showLine: true,// Whether the connection between nodes is displayed
+    fontCss:{'color':'black','font-weight':'bold'},// font pattern function
+    selectedMulti: false // Set whether multiple nodes are allowed
+  },
+  check:{
+    //chkboxType: { "Y": "ps", "N": "ps" },
+    chkStyle: "checkbox",// check box type
+    enable: true // Whether Checkbox is displayed on each node 
+  },
+  data: {
+    simpleData: {  // Simple data mode
+      enable:true,
+      idKey: "id",
+      pIdKey: "pId",
+      rootPId: ""
+    }
+  },
+  callback: {
+    beforeClick: function(treeId, treeNode) {
+      zTree = $.fn.zTree.getZTreeObj("user_tree");
+      if (treeNode.isParent) {
+        zTree.expandNode(treeNode);// If it is a parent node, expand this node
+        /******    *****/
+
+        /*****      *******/
+
+
+       /*prompt("Veuillez saisir le nom du nouveau répertoire :", "");*/
+        /******  link  *****/
+/*var a = document.createElement('a');  
+var lien = document.createTextNode("Voici un lien"); 
+a.appendChild(lien);  
+a.title = "Comment faire un lien en JavaScript";  
+a.href = "https://www.1formatik.com/4902/comment-creer-un-lien-en-javascript";
+document.body.appendChild(a);  */
+
+        /*****      *******/
+        //document.write("<a href=\"https://www.1formatik.com/4902/comment-creer-un-lien-en-javascript\">");
+        document.write("{% for repertoire in repertoires  %}")
+        
+        document.write("<a href=\"{{ path('Liste_Documents' , {id: repertoire.id})}}\">");
+        document.write("{{repertoire.id}}");
+        document.write(" {% endfor %} ")
+        document.write("Your Title");
+        document.write("</a>");
+
+
+        
+        console.log("ok");
+      }else{
+        zTree.checkNode(treeNode, !treeNode.checked, true, true);
+        // Click Check, click Cancel Check
+
+        
+
+      }
+    }
+  }
+};
+
+
+/*var zNodes =[
+    { id:1, pId:0, name:"test 1", open:false},
+    { id:11, pId:1, name:"test 1-1", open:true},
+    { id:111, pId:11, name:"test 1-1-1"},
+    { id:112, pId:11, name:"test 1-1-2"},
+    { id:12, pId:1, name:"test 1-2", open:true},
+           ];*/
+            
+  //var zNodes = JSON.parse($("{{zNodes}}").val());
+  var zNodes = JSON.parse('{{zNodes|raw}}');
+  
+  
+  $(document).ready(function(){
+    $.fn.zTree.init($("#user_tree"), setting, zNodes);
+    //$.fn.zTree.init($("#user_tree"), setting, zNodes);
+    // prompt("Veuillez saisir le nom du nouveau répertoire :", "");
+  });
+  function onCheck(e,treeId,treeNode){
+    var treeObj=$.fn.zTree.getZTreeObj("user_tree"),
+    nodes=treeObj.getCheckedNodes(true),
+    v="";
+    for(var i=0;i<nodes.length;i++){
+      v+=nodes[i].name + ",";
+      alert(nodes[i].id); // Get the value of the selected node
+    }
+  }
+
+     </script>
+
+   
+
+{% endblock %}  
+

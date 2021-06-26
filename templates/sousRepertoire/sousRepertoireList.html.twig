@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Repertoires{% endblock %}
+
+{% block body %}
+    <h1>Sous Repertoires</h1>
+  
+    
+    
+                         
+    <td><a class="btn btn-primary" href="{{ path('repertoire_new') }}">Ajouter un Repertoire</a></td>
+
+    <td><a class="btn btn-primary" href="{{ path('document_new') }}">Ajouter un Document</a></td>
+    <br></br>
+
+
+        <table class="table">
+                <tbody>
+                <tr>
+                                <th>Id</th>
+                                <th>Nom</th>
+                                  <th>Equipe</th>
+                                   <th>Repertoires</th>
+                                  
+                        
+                {% for sousRepertoire in sousRepertoires  %}
+                         
+                </tr> 
+                <tr>                 
+                                <td>{{ sousRepertoire.id }}</td>
+                               <td>{{ sousRepertoire.nom }}</td>
+                               {# <td>{{ sousRepertoire.equipe.nom }}</td>#}
+                                {#<td>{{ sousRepertoire.repertoire}}</td>#}
+
+                                
+                               
+                                 
+                                
+                               
+                </tr>
+                         
+                               
+                        
+                        {% endfor %}
+
+                </tbody>
+        </table>
+
+        
+
+        
+
+       
+{% endblock %}

@@ -1,0 +1,37 @@
+[{  "id": 21,
+    "name": "General manager",
+    "pid": 0,
+    "parent": true
+}, {"id": 26,
+    "name": "Technology Department",
+    "pid": 0,
+    "parent": true
+}, {
+    "id": 27,
+    "name": "project manager",
+    "pid": 26,
+    "parent": false
+}, {"id": 28,
+    "name": "Project Team Leader",
+    "pid": 26,
+    "parent": false
+}, {
+    "id": 29,
+    "name": "Security Department",
+    "pid": 0,
+    "parent": true
+}, {"id": 30,
+    "name": "Head of cyber security department",
+    "pid": 29,
+    "parent": false
+}, {
+    "id": 31,
+    "name": "Project Safety Tester",
+    "pid": 29,
+    "parent": false
+}, {
+    "id": 32,
+    "name": "Project Safety Tester 22222",
+    "pid": 29,
+    "parent": false
+}]

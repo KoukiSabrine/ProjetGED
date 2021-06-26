@@ -6,12 +6,15 @@ use App\Repository\DocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DocumentRepository::class)
  */
 class Document
 {
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -55,7 +58,7 @@ class Document
     private $dateCreation;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $version;
 
@@ -81,6 +84,20 @@ class Document
      * @ORM\JoinColumn(nullable=false)
      */
     private $repertoire;
+
+    
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="documents")
+     */
+    private $auteur;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\File(mimeTypes={"application/pdf"})     */
+    private $file;
+
+    
 
     public function __construct()
     {
@@ -293,4 +310,40 @@ class Document
 
         return $this;
     }
+
+   
+
+    public function getAuteur(): ?Utilisateur
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?Utilisateur $auteur): self
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    // public function __toString() {
+    //     return $this->auteur->getNom();
+    // }
+
+    // public function __toString()
+    // {
+    //     return (string) $this->getAuteur();
+    // }
+   
 }

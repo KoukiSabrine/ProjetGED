@@ -47,7 +47,12 @@ class Equipe
     }
 
     
-    
+    public function setId(int $nom): self
+    {
+        $this->id = $nom;
+
+        return $this;
+    }
 
    
 

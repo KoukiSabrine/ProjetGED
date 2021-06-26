@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un tag{% endblock %}
+
+{% block body %}
+        <h1>Ajouter un tag</h1>
+        <fieldset>
+               {# <legend>Modification</legend>#}
+                {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
+                {# utilisation de classes bootstrap pour la mise en forme #}
+                        <div class="row">
+                         <div class="col-12">
+                                        {{ form_label(form.tag) }}
+                                        {{ form_widget(form.tag) }}
+                                </div>
+                                 
+                                
+                                
+                                 <div class="col-12">
+                                        {# {{ form_label(form.document) }}
+                                        {{ form_widget(form.document) }} #}
+                                </div>
+
+                                <div class="col-12">
+                                       {# <label for="verifpass">Saisir une seconde fois le mot de passe</label>#}
+                                       
+                                </div>
+                        </div>
+                        <br></br>
+                        <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+                {{ form_end(form) }}
+        </fieldset>
+
+      
+
+{% endblock %}

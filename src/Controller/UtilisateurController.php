@@ -3,9 +3,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Document;
 use App\Entity\Equipe;
+use App\Entity\File;
 use App\Entity\Utilisateur;
 use App\Entity\Projet;
+use App\Entity\Repertoire;
+use App\Entity\Tag;
+use App\Form\RepertoireType;
+use App\Form\DocumentType;
+use App\Form\TagType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Repository\ProjetRepository;
@@ -17,12 +24,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Services\ApiService;
+use App\Services\AuthService;
+use Dompdf\Dompdf ;
+use Dompdf\Options;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 
 /**
 * @Route("/utilisateur")
 */
 class UtilisateurController extends AbstractController
 {
+
+        private $directoryList;
+         private $s3;
+        /*public function __construct(ApiService $apiService){
+
+        }*/
         /**
         * @Route("/", name="utilisateur_index", methods={"GET"})
         */
@@ -46,6 +67,7 @@ class UtilisateurController extends AbstractController
                 return $this->redirectToRoute('membre');
         }
 
+
          /*****************     Projet      ********************/
 
           /**
@@ -55,13 +77,7 @@ class UtilisateurController extends AbstractController
     public function showProjet(ProjetRepository $projetRepository): Response
     {
         $id = $this->getUser()->getId();
-        //$projet=
-
-         //$utilisateur=$this->getUser();
-           /* return $this->render('projet/projetList.html.twig',  [
-                'equipes' => $utilisateur->getEquipes()
-        ]); */
-
+        
         $list=$projetRepository->getProjetsByUserId($id);
         return $this->render('projet/projetList.html.twig',  [
                 'projets' =>$list]); 
@@ -73,24 +89,24 @@ class UtilisateurController extends AbstractController
     
          /*****************     Equipe      ********************/
 
+
           /**
      * @Route("/{id}/showEquipe", name="Liste_Equipes", methods={"GET"})
      *
      */
-       public function showEquipe(Projet $projet): Response
+       public function showEquipe(Projet $projet,Session $session): Response
     {       
-        //$id = $this->getUser()->getId();
-        //$id2=$projetRepository->getProjetIdByUserId($id);
-        //$projet=new Projet();
-        //$id = $projet->getId();
-        //$list2=$projetRepository->getEquipesByProjetId($id);
         $list = $projet->getEquipe();
+        
+       // $session->set('list',$list);
+        //dd($session->get('list'));
         $utilisateur = $this->getUser();
         return $this->render('equipe/equipeList.html.twig',  [
                 'equipes' =>  $list,
                 'u' => $utilisateur
         ]);  
     }
+
 
      /*****************     User      ********************/
 
@@ -111,29 +127,449 @@ class UtilisateurController extends AbstractController
 
 
 
-     /*****************     User      ********************/
+     /*****************     Repertoire       ********************/
+
+
+
+      
+    public function showRepJSON(ProjetRepository $projetRepository,Equipe $equipe):JsonResponse
+    {       
+        //$utilisateur = $this->getUser();
+        
+        $idEq=$equipe->getId();
+     $list=$projetRepository->getRepertoiresByEquipeId($idEq);
+     //$this->directoryList = $this->getAllObjects();
+
+     //$json = json_encode($list, JSON_FORCE_OBJECT);   //arrayToJSON
+     
+    
+        return new JsonResponse($list);
+    }
+
+
 
           /**
      * @Route("/{id}/showRepertoire", name="Liste_Repertoires", methods={"GET"})
      *
      */
 
-    public function showRepertoire(ProjetRepository $projetRepository,Equipe $equipe): Response
+    public function showRepertoire(ProjetRepository $projetRepository,Equipe $equipe,Repertoire $repertoire,Session $session): Response
     {       
         //$utilisateur = $this->getUser();
+        //$session=$request->getSession();
         $idEq=$equipe->getId();
+       
+
+
+     //dd($equipe);
      $list=$projetRepository->getRepertoiresByEquipeId($idEq);
-     //$list=$
-        return $this->render('repertoire2/repertoireList.html.twig',  [
-                'repertoires' =>  $list
+     
+     //$repository = $this->getDoctrine()->getRepository(Equipe::class);
+
+     //$tt=$repository->findOneBy(["id"=>5]);
+
+     $session->set('equipe',$equipe);
+     //dd($equipe);
+     
+     //dd($session->get('list'));
+     //$json=$this->showRepJSON($projetRepository,$equipe);
+    
+
+     //$json = json_encode($list, JSON_FORCE_OBJECT);    //arrayToJSON
+     $json = json_encode($list); 
+    
+     $listSousRep=$repertoire->getRepertoire();
+      
+     $idRep=$repertoire->getId();
+     $listDoc=$projetRepository->getDocumentsByRepertoireId($idRep);
+   
+        return $this->render('repertoire/repertoireList.html.twig',  [
+                'repertoires' =>  $list,'zNodes' => $json,'documents' => $listDoc
+        ]);  
+    }
+
+
+/**
+ * @Route("/repertoire/newRepertoire",name="repertoire_new")
+ * @param Request $request
+ * @return Response
+ */
+
+      public function newRepertoire(Request $request,Session $session): Response
+      {
+        $repertoire=new Repertoire();
+        $form=$this->createForm(RepertoireType::class,$repertoire);
+        $form->handleRequest($request);
+        //dd($form);
+        $equipe=$session->get('equipe');
+        //dd($equipe);
+        if($form->isSubmitted() && $form->isValid()){
+                
+             //$ep=$form->getData();
+             //dd($equipe);
+            //$repertoire->setEquipe($equipe);
+            $rep = $this->getDoctrine()->getRepository(Equipe::class);
+           $pp=$rep->findOneBy(["id"=>$equipe->getId()]);
+
+           //dd($rep);
+    
+           $repertoire->setEquipe($pp);
+           $sr=new Repertoire();
+           $sr->setEquipe($pp);
+           $sr->setNom('ml');
+           //dd($sr);
+           //$session->set('sr',$sr);
+           //$repertoire->setRepertoire($sr);
+           //dd($session->get('sr'));
+           
+
+            //$repertoire->setRepertoire($sr);
+            //$repertoire->addSousRepertoire($repertoire);
+                      
+                
+            $em=$this->getDoctrine()->getManager();
+          
+            $em->persist($repertoire);
+            //dd($repertoire);
+            $em->flush();
+                               
+
+            return $this->redirectToRoute('home');
+          
+            
+        }
+
+
+return $this->render('repertoire/addRepertoire.html.twig',[
+        'form'=>$form->createView()
+    ]);
+    }
+
+
+
+    
+    
+        /****************       SousRepertoire      ****************/
+
+    
+          /**
+     * @Route("/{id}/showSousRepertoire", name="Liste_SousRepertoires", methods={"GET"})
+     *
+     */
+
+    public function showSousRepertoire(Repertoire $repertoire,ProjetRepository $projetRepository,Session $session): Response
+    {       
+        
+     
+     $listSousRep=$repertoire->getSousRepertoire();
+    /* $ss=$session->get('sr');
+     dd($ss);
+
+     $rep = $this->getDoctrine()->getRepository(Repertoire::class);
+     $pp=$rep->findOneBy(["id"=>$ss->getId()]);
+     dd($pp);
+     $listSousRep->addSousRepertoire($pp);*/
+     
+
+
+   
+        return $this->render('sousRepertoire/sousRepertoireList.html.twig',  [
+             'sousRepertoires'=> $listSousRep
+        ]);  
+    }
+
+    
+
+
+
+
+          /************ Document **************/
+
+
+  /**
+     * @Route("/{id}/showDocument", name="Liste_Documents", methods={"GET"})
+     *
+     */
+
+public function showDocument(ProjetRepository $projetRepository,Repertoire $repertoire,Session $session): Response
+    {       
+
+        //$idEq=$equipe->getId();
+        //$list=$projetRepository->getRepertoiresByEquipeId(4);
+        //$json = json_encode($list);
+
+        $idRep=$repertoire->getId();
+        $listDoc=$projetRepository->getDocumentsByRepertoireId( $idRep);
+
+        
+        $session->set('repertoire',$repertoire);
+        //dd($repertoire);
+       
+
+
+
+         
+        return $this->render('document/documentList.html.twig',  [
+               'documents' =>  $listDoc,
         ]);  
     }
 
 
 
+
+
+    /**
+     * @Route("/document/newDocument",name="document_new")
+     * @param Request $request
+     * @return Response
+     */
+
+    public function newDocument(Request $request,Session $session): Response
+      {
+        $document=new Document();
+        
+
+        $form=$this->createForm(DocumentType::class,$document);
+        $form->handleRequest($request);
+
+        $rep=$session->get('repertoire');
+        $package = new Package(new EmptyVersionStrategy());
+        
+
+        //dd($rep);
+        if($form->isSubmitted() && $form->isValid()){
+            
+             // On récupère les images transmises
+            
+            $file=$form->get('file')->getData();
+            //dd($file);
+            //$session->set('file',$file);
+           
+            $taille=$file->getSize();
+            $type=$file->guessExtension();
+            $utilisateur = $this->getUser();
+            //$dateCreation=filectime($file);
+            $dateCreation= $this->startDate = new \DateTime();
+            //dd( $dateCreation);
+            $doc = $this->getDoctrine()->getRepository(Repertoire::class);
+            $pp=$doc->findOneBy(["id"=>$rep->getId()]);
+
+           
+
+            //$dobStringValue = $dateCreation->format('Y-m-d');
+            //$date = \DateTime::createFromFormat('Y-m-d', $dateCreation); 
+            // dd($date);
+            $document->setTaille($taille);
+            $document->setType($type);
+            $document->setAuteur($utilisateur);
+            $document->setRepertoire($pp);
+            $document->setUrl($file);
+            $document->setDateCreation($dateCreation);
+            //$document->setDateCreation($dateCreation);
+        
+                // On génère un nouveau nom de fichier
+                
+                $fichier = md5(uniqid()) . '.' . $file->guessExtension();
+        // dd($fichier);
+                //dd( $package->getUrl('$fichier'));
+                // On copie le fichier dans le dossier uploads
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+
+                // On stocke l'image dans la base de données (son nom)
+               // $f = new File();
+                $document->setNom($fichier);
+                $document->setFile($file);
+           // }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($document);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+
+        }
+
+
+return $this->render('document/addDocument.html.twig',[
+        'form'=>$form->createView()
+    ]);
+    }
+
+
+
+
+     /**
+     * @Route("/{id}/deleteDocument",name="document_delete")
+     * @param Request $request
+     */
+
+    public function deleteDocument(Request $request,Session $session,Document $document): Response
+      {
+                        
+                       
+                        //$IdAuteur=$document->getAuteur();
+                       // $IdUtilisateur=$this->getUser()->getId();
+                        //if($IdAuteur==$IdUtilisateur){
+                                //dd($auteur->getId());
+                               // dd($document);
+                        $session->set('document',$document);
+                         //dd($session);
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->remove($document);
+                        //dd('ok');
+                        $entityManager->flush();
+                       
+                        return $this->redirectToRoute('home');
+                                
+                        //}
+                        //return $this->redirectToRoute('docoment/documentList.html.twig');
+
+                        
+      }
+
+
+
+       /**
+     * @Route("/{id}/editDocument",name="document_update")
+     * @param Request $request
+     */
+
+    public function editDocument(Request $request,Session $session,Document $document): Response
+    {
+                      
+                      //dd($document);
+                      
+                      //dd('ok');
+                     
+                     //$file=$document->getFile();
+                     // return $this->redirectToRoute('home');
+                     $form = $this->createForm(DocumentType::class, $document);
+                     $form->handleRequest($request);
+                     
+                     
+                     //dd($form);
+                     //dd($form->getData());
+                     //dd('ppp');
+                     
+                       //dd( $document);
+                     if ($form->isSubmitted() && $form->isValid()) {
+
+                         $utilisateur = $this->getUser();
+                         $document->setAuteur(  $utilisateur);
+                        
+                        $document->setVersion('111');
+                        
+                        
+                        //dd($v);
+                        
+                       
+                             $this->getDoctrine()->getManager()->flush();
+                            
+     
+                             return $this->redirectToRoute('home');
+                     }
+                        
+                     return $this->render('document/editDocument.html.twig', [
+                     
+                     'form' => $form->createView(),
+                     ]);
+                     
+
+    }
+
+    /**
+     * @Route("/{id}/documentDownload", name="document_download")
+     */
+    public function documentDownload(Document $document)
+    {
+        // On définit les options du PDF
+        $pdfOptions = new Options();
+        // Police par défaut
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+
+        // On instancie Dompdf
+        $dompdf = new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+        $dompdf->setHttpContext($context);
+
+        // On génère le html
+        $html = $this->renderView('document/download.html.twig',['document'=>$document]);
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // On génère un nom de fichier
+        $fichier = 'document-data-'. $document->getId() .'.pdf';
+
+        // On envoie le PDF au navigateur
+        $dompdf->stream($fichier, [
+            'Attachment' => true
+        ]);
+
+        return new Response();
+    }
+
+
+
+
+    /*********************  Tag  ******************/
+
+
+    /**
+ * @Route("/tag/newTag",name="tag_new")
+ * @param Request $request
+ * @return Response
+ */
+
+public function newTag(Request $request,Session $session): Response
+{
+  $tag=new Tag();
+  $form=$this->createForm(TagType::class,$tag);
+  $form->handleRequest($request);
+  $doc=$session->get('document');
+        //dd($doc);
+ 
+  if($form->isSubmitted() && $form->isValid()){
+        
+        $do = $this->getDoctrine()->getRepository(Document::class);
+        $pp=$do->findOneBy(["id"=>$doc->getId()]);
+        $tag->setDocument($pp);
+          
+      $em=$this->getDoctrine()->getManager();
+    
+      $em->persist($tag);
+     
+      $em->flush();
+                         
+
+      return $this->redirectToRoute('home');
+    
+      
+  }
+
+
+return $this->render('tag/addTag.html.twig',[
+  'form'=>$form->createView()
+]);
+}
+
+    
+
+
      
 
-    /*********** users   *******/
+           /****************** users   **************/
 
      /**
          * @Route("/{id}/listeUsers", name="utilisateur_list", methods={"GET"})

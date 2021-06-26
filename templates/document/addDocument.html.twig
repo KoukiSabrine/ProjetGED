@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un document{% endblock %}
+
+{% block body %}
+        <h1>Ajouter un document</h1>
+        <fieldset>
+               {# <legend>Modification</legend>#}
+                {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
+                {# utilisation de classes bootstrap pour la mise en forme #}
+                        <div class="row">
+                         <div class="col-12">
+                                       {# {{ form_label(form.nom) }}#}
+                                        {{ form_widget(form.nom) }}
+                                </div>
+                                 <div class="col-12">
+                                      {#  {{ form_label(form.url) }}
+                                        {{ form_widget(form.url) }}#}
+                                </div>
+
+                                <div class="col-12">
+                                        {{ form_label(form.urlComplet) }}
+                                        {{ form_widget(form.urlComplet) }}
+                                </div>
+                                <div class="col-12">
+                                        {{ form_label(form.Etat) }}
+                                        {{ form_widget(form.Etat) }}
+                                </div>
+                                <div class="col-12">
+                                       {# {{ form_label(form.auteur) }}#}
+                                        {{ form_widget(form.auteur) }}
+                                </div>
+                                 <div class="col-12">
+                                       {# {{ form_label(form.type) }}#}
+                                        {{ form_widget(form.type) }}
+                                </div>
+                                <div class="col-12">
+                                       {# {{ form_label(form.taille) }}#}
+                                        {{ form_widget(form.taille) }}
+                                </div>
+
+                                <div class="col-12">
+                                       {# {{ form_label(form.dateCreation) }}
+                                        {{ form_widget(form.dateCreation) }}#}
+                                </div>
+
+                                <div class="col-12">
+                                        {{ form_label(form.version) }}
+                                        {{ form_widget(form.version) }}
+                                </div>
+                                
+                                <div class="col-12">
+                                      {#  {{ form_label(form.repertoire) }}
+                                        {{ form_widget(form.repertoire) }}#}
+                                </div>
+                                 <div class="col-12">
+                                        {{ form_label(form.tag) }}
+                                        {{ form_widget(form.tag) }}
+                                </div>
+
+                                <div class="col-12">
+                                        {{ form_label(form.file) }}
+                                        {{ form_widget(form.file) }}
+                                </div>
+                               
+                                <div class="col-12">
+                                       {# <label for="verifpass">Saisir une seconde fois le mot de passe</label>#}
+                                       
+                                </div>
+                        </div>
+                        <br></br>
+                        <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+                {{ form_end(form) }}
+        </fieldset>
+
+      
+
+{% endblock %}
