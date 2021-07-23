@@ -1,0 +1,9 @@
+git init
+git status
+git add .
+git commit -m "First commit"
+git status
+git log --oneline
+**créer un repository **
+git remote add origin https://github.com/KoukiSabrine/TP2.git
+git push -u origin master

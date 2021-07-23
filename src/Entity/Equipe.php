@@ -22,7 +22,7 @@ class Equipe
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
+    private $nomEq;
 
     /**
      * @ORM\ManyToOne(targetEntity=Projet::class, inversedBy="equipe")
@@ -63,12 +63,12 @@ class Equipe
 
     public function getNom(): ?string
     {
-        return $this->nom;
+        return $this->nomEq;
     }
 
     public function setNom(string $nom): self
     {
-        $this->nom = $nom;
+        $this->nomEq = $nom;
 
         return $this;
     }
@@ -119,6 +119,9 @@ class Equipe
         $this->membre->removeElement($membre);
 
         return $this;
+    }
+    public function __toString() {
+        return $this->nomEq;
     }
 
     

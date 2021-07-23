@@ -1,0 +1,326 @@
+{# {% extends 'base.html.twig' %} #}
+
+{# {% block title %}Historique{% endblock %} #}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/timeline.min.css" />
+<style>
+.timeline__content {
+    background-color: #fff;
+    border: 1px solid #87cefa;
+    border-radius: 10px;
+    color: #333;
+    display: block;
+    padding: 1.25rem;
+    position: relative;
+}
+.timeline__content:before {
+    border-bottom: 10px solid transparent;
+    border-left: 12px solid #87cefa;
+    border-top: 10px solid transparent;
+    right: -12px;
+    z-index: 1;
+}
+
+.timeline__item--right .timeline__content:after {
+    border-bottom: 9px solid transparent;
+    border-right: 11px solid #fff;
+    border-left: none;
+    border-top: 9px solid transparent;
+    left: -10px;
+}
+
+.timeline__item--right .timeline__content:before {
+    border-bottom: 10px solid transparent;
+    border-right: 12px solid #87cefa;
+    border-left: none;
+    border-top: 10px solid transparent;
+    left: -12px;
+}
+
+.timeline__item:after {
+    background-color: #fff;
+    border: 4px solid 	#87cefa;
+    border-radius: 50%;
+    content: '';
+    height: 20px;
+    position: absolute;
+    right: -10px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    top: 50%;
+    width: 20px;
+    z-index: 1;
+}
+
+.timeline:not(.timeline--horizontal):before {
+    background-color: #87cefa;
+    bottom: 0;
+    content: '';
+    left: 50%;
+    margin-left: -2px;
+    position: absolute;
+    top: 0;
+    width: 4px;
+    z-index: 1;
+}
+
+.timeline--horizontal .timeline__item .timeline__content:before {
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid #87cefa;
+    left: 50%;
+    right: auto;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: 100%}
+
+    .timeline--horizontal .timeline__item--bottom .timeline__content:before {
+    border-bottom: 12px solid #87cefa;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: none;
+    bottom: 100%;
+    top: auto;
+}
+.timeline-nav-button {
+    background-color: #fff;
+    border: 2px solid #87cefa;
+    border-radius: 50px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+    display: block;
+    height: 40px;
+    outline: 0;
+    position: absolute;
+    text-indent: -9999px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    top: 50%;
+    width: 40px;
+    z-index: 10;
+}
+.timeline--mobile .timeline__item .timeline__content:before {
+    left: -12px;
+    border-bottom: 12px solid transparent;
+    border-right: 12px solid #87cefa;
+    border-left: none;
+    border-top: 12px solid transparent;
+}
+
+.timeline--horizontal .timeline-divider {
+    background-color: #87cefa;
+    display: block;
+    height: 4px;
+    left: 40px;
+    position: absolute;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 40px;
+    z-index: 1;
+}
+.timeline__item.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    opacity: 0;
+}
+.panel-heading{
+    background-color: #87cefa;
+}
+.timeline--horizontal .timeline__item--bottom .timeline__content:before {
+    border-bottom: 12px solid #87cefa;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: none;
+    bottom: 100%;
+    top: auto;
+}
+.timeline--horizontal .timeline__item .timeline__content:before {
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid #87cefa;
+    left: 50%;
+    right: auto;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: 100%}
+
+    body {
+  font-family: "Lato", sans-serif;
+}
+
+
+ 
+
+button {
+  position:absolute;
+  top:15%;
+  left:50%;
+  transform:translate(-90%,-50%);
+  padding:15px;
+  font-size:18px;
+  border:2px solid #222;
+  color:#222;
+  text-transform:uppercase;
+  font-weight:600;
+  background:#fff;
+}
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+ <nav class="navbar navbar-light bg-dark">
+                        <div >  &nbsp; &nbsp;&nbsp;  <img src="/images/home.png" style="width: 32px ; height: 32px"/>
+                        <a class="text-light" href="{{ path('home') }} " style=" font-size: 180%"  >Accueil</a></div>
+                                {#<a class="btn btn-outline-info" href="{{ path('membre') }}">Page membre</a>#}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                        {# <a class="btn btn-outline-warning" href="{{ path('admin') }}">Page admin</a> #}
+                                                                                                           <center>    <div class="row"> <img src="/images/gif2.png" style="width: 20px ; height: 20px"/> &nbsp; <h5 style="color:grey">Bonjour {{ app.user.username }}</h5></div></center>
+
+                                {% endif %}
+
+                                <div style="color:white; font-size: medium" >
+                           Bonjour {{ app.user.username }} 
+                                       {# <button type="button" class="btn btn-outline-danger" href="{{ path('app_logout') }}">Déconnexion</button> #}
+                                       
+                                    
+{# &nbsp; #}
+                                        <a class="btn btn-sm btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                               {#{% if is_granted('ROLE_ADMIN') %} #}
+                                       <a class="btn btn-primary mt-1" href="{{ path('utilisateur_edit', {'id': app.user.id}) }}">Modifier mon compte</a>
+                                {#{% endif %} #}
+                                
+                                </div>
+                                               </nav>
+     {# <a class="btn btn-primary" href="{{ path('edit_new' )}}">Mettre à jour</a> #}
+    
+    <h1>Historique</h1>
+
+        {# <table class="table">
+                <tbody>
+                <tr>
+                                
+                                <th>Id</th>
+                                  <th>Date de modification</th>
+                                  <th>Auteur</th>
+                                 <th>Etat</th>
+                                  <th>Version</th>
+                                  <th>File</th>
+                                  
+                                  
+                                      </tr> 
+                        
+                {% for his in historique  %}
+                         
+               
+                <tr>                 
+                                
+                                <td>{{ his.id }}</td>
+                                 <td>{{ his.date_modif }}</td> 
+                               <td> {{document.getAuteur()}}</td>
+                                <td> {{document.getEtat()}}</td>
+                                <td> {{document.getVersion()}}</td>
+                                 <td> {{document.getFile()}}</td>
+
+                                <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Comments', {'id': document.id}) }}">  Commentaires</a></td>
+
+                                 
+                        
+       
+                                
+                               
+                               
+                </tr>
+                         
+                               
+                        
+                        {% endfor %}
+
+                </tbody>
+        </table> #}
+
+         <div class="container">
+			<br />
+			{# <h3 align="center"><a href="">How to Create Dynamic Timeline in PHP</a></a></h3><br /> #}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+                    {# <h3 class="panel-title">Our Journey</h3> #}
+                    <h3 class="panel-title">Historique</h3>
+                    <h2>
+                      {% if  document.nom  | split('.')[1] |length ==4  %} 
+                                    
+                              <td><img src="/icon/{{ "#{document.nom | slice(-4, 4)}#{'.svg'} " }}" width=40 height=40 border=0> </td>
+
+                                 {% else %}
+                                 <td><img src="/icon/{{ "#{document.nom | slice(-3, 3)}#{'.svg'} " }}" width=40 height=40 border=0> </td>
+                                 {% endif %} 
+                              
+                    {{document.getNom()}}</h2>
+                    {# <h2>{{document.getFile()}}</h2> #}
+
+
+                </div>
+                <div class="panel-body">
+                	<div class="timeline">
+                        <div class="timeline__wrap">
+                            <div class="timeline__items">
+
+                            
+                             {% for his in historique  %}
+                            
+                            
+                            	<div class="timeline__item">
+                                    <div class="timeline__content">
+                                    	<h2>{{ his.date_modif }}</h2>
+                                    	<p><strong>Etat: </strong>{{his.etat}}
+                                            <br><strong>Version: </strong> {{his.version}}
+                                            <br><strong>Auteur: </strong>{{his.prenom}}&nbsp;{{his.nom}}
+                                             <br><strong>File: </strong>{{his.file}} 
+                                            <br><strong>Remarque: </strong>{{his.remarque}}
+                                            </p>
+                                    </div>
+                                </div>
+                            
+                                {% endfor %}
+
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+
+        
+
+        
+
+       
+{% endblock %}
+
+{% block javascripts %}
+ <script src="/js/jquery.js"></script>
+ <script src="/js/timeline.min.js"></script>
+
+ <script>
+$(document).ready(function(){
+    jQuery('.timeline').timeline();
+});
+</script>
+{% endblock %}
+

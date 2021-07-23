@@ -34,13 +34,13 @@ class RepertoireType extends AbstractType
             ])*/
             //->add('equipe',HiddenType::class)
             //->add('repertoire',HiddenType::class)
-            /*->add('repertoire',EntityType::class,[
+            ->add('repertoire',EntityType::class,[
                 'class' => Repertoire::class,
                 'choice_label' => function ($repertoire) {
                     return $repertoire->getNom();
                 }
               
-            ]) */
+            ]) 
 
            // ->add('repertoire',HiddenType::class)
             //->add('sousRepertoire',HiddenType::class)

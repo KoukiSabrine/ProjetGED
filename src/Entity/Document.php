@@ -62,10 +62,7 @@ class Document
      */
     private $version;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Historique::class, mappedBy="document")
-     */
-    private $historique;
+    
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="document")
@@ -207,36 +204,7 @@ class Document
         return $this;
     }
 
-    /**
-     * @return Collection|Historique[]
-     */
-    public function getHistorique(): Collection
-    {
-        return $this->historique;
-    }
-
-    public function addHistorique(Historique $historique): self
-    {
-        if (!$this->historique->contains($historique)) {
-            $this->historique[] = $historique;
-            $historique->setDocument($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHistorique(Historique $historique): self
-    {
-        if ($this->historique->removeElement($historique)) {
-            // set the owning side to null (unless already changed)
-            if ($historique->getDocument() === $this) {
-                $historique->setDocument(null);
-            }
-        }
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection|Commentaire[]
      */
@@ -341,9 +309,9 @@ class Document
     //     return $this->auteur->getNom();
     // }
 
-    // public function __toString()
-    // {
-    //     return (string) $this->getAuteur();
-    // }
+    public function __toString()
+    {
+        return (string) $this->getNom();
+    }
    
 }

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\HistoriqueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=HistoriqueRepository::class)
@@ -27,6 +29,34 @@ class Historique
      * @ORM\JoinColumn(nullable=false)
      */
     private $document;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $aut;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $versionDoc;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $remarque;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $etatDoc;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\File(mimeTypes={"application/pdf"})     */
+     private $fileHis;
+
+
 
     public function getId(): ?int
     {
@@ -53,6 +83,66 @@ class Historique
     public function setDocument(?Document $document): self
     {
         $this->document = $document;
+
+        return $this;
+    }
+
+    public function getAut(): ?Utilisateur
+    {
+        return $this->aut;
+    }
+
+    public function setAut(?Utilisateur $aut): self
+    {
+        $this->aut = $aut;
+
+        return $this;
+    }
+
+    public function getVersionDoc(): ?string
+    {
+        return $this->versionDoc;
+    }
+
+    public function setVersionDoc(string $version): self
+    {
+        $this->versionDoc = $version;
+
+        return $this;
+    }
+
+    public function getRemarque(): ?string
+    {
+        return $this->remarque;
+    }
+
+    public function setRemarque(?string $remarque): self
+    {
+        $this->remarque = $remarque;
+
+        return $this;
+    }
+
+    public function getEtatDoc(): ?string
+    {
+        return $this->etatDoc;
+    }
+
+    public function setEtatDoc(string $etatDoc): self
+    {
+        $this->etatDoc = $etatDoc;
+
+        return $this;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->fileHis;
+    }
+
+    public function setFile(string $file): self
+    {
+        $this->fileHis = $file;
 
         return $this;
     }

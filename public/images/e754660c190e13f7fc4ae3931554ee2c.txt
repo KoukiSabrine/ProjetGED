@@ -1,0 +1,170 @@
+/* 3rd Party api */
+
+https://www.danieldonbavand.com/implementing-an-api/
+
+https://www.youtube.com/watch?v=J46I-cctz7M&ab_channel=GaryClarke
+
+https://www.youtube.com/watch?v=4ZEH2U6x7dU&list=PLQH1-k79HB39w7dmGtLj4JGJ7HoucbcMx&index=3&ab_channel=GaryClarke
+
+/*Relation OneToOne*/
+
+https://www.youtube.com/watch?v=vt1f9fGYcpM&ab_channel=SmaineMilianni
+
+
+/*   créer un popup  */
+
+https://www.coursaline.com/tutoriels/developpement-web/creer-exemple-simple-popup
+
+
+/*  css */
+
+https://www.youtube.com/watch?v=8cExRlT--Zc&ab_channel=dcode
+
+
+/* tutoriel symfony */
+
+https://www.youtube.com/watch?v=6v8LGDQL9Vs&list=PLlxQJeQRaKDRs9WlWQiXNqWU0blyaZBzo&index=7&ab_channel=LESTEACHERSDUNET
+
+
+/* search by */
+
+https://www.youtube.com/watch?v=3bGWacAoryM&ab_channel=HC-DEV
+
+
+/*  Api */
+
+https://www.youtube.com/watch?v=SG7GgcnR1F4&ab_channel=LiorCHAMLA
+
+
+
+/*    plugins   */
+
+https://symfony.com/legacy/doc/jobeet/1_2/fr/20?orm=Doctrine 
+
+
+/*     ajax       */
+
+https://openclassrooms.com/fr/courses/1567926-un-site-web-dynamique-avec-jquery/1569648-le-fonctionnement-de-ajax
+
+
+/*    upload file  */
+
+https://shabuninil.github.io/fileup/
+
+
+/*        jquery (Uncaught ReferenceError: $ is not defined at formstoneReadyInvoice.js:1)     */
+
+https://forum.alsacreations.com/topic-1-73435-1-ReferenceError--is-not-defined.html
+
+
+/*   amazon s3    */
+
+https://openclassrooms.com/fr/courses/4810836-decouvrez-le-cloud-avec-amazon-web-services/5038626-quest-ce-que-simple-storage-service-s3
+
+
+
+/*      amazon s3 bucket   */
+
+https://blog.theodo.com/2018/06/upload-symfony-aws-s3/
+
+
+/*    credentials      */
+
+https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_profiles.html
+
+
+/*   amazon error (timezone)  */
+
+https://www.studytonight.com/post/how-to-resolve-amazon-s3-file-upload-error-requesttimetooskewed
+
+
+/*   powershell    */
+
+https://www.youtube.com/watch?v=V1mXesiEcm8&ab_channel=LemniscateIbm
+
+/*   configurer ntp   */
+
+https://www.youtube.com/watch?v=zOmjQQHiSxI&ab_channel=TheLinuxMan
+
+
+/*     CKEditor      */
+
+https://nouvelle-techno.fr/actualites/utiliser-ckeditor-avec-symfony-4-avec-upload-dimages
+
+https://ckeditor.com/docs/ckeditor5/latest/builds/guides/quick-start.html
+
+
+
+
+/*      elfinder  ckeditor         */
+
+https://openclassrooms.com/forum/sujet/soucis-upload-image-editeur-ckeditor-symfony-3-4
+
+
+/*       elfinder               */
+
+https://elliottchiaradia.ch/blog/article/detail/tutoriel-ajouter-un-gestionnaire-de-fichiers-a-ckeditor-avec-symfony2
+
+
+
+/*         outil pour  partager un code      */
+
+https://sharemycode.io/
+
+
+
+/*    ckfinder    */
+
+https://support.ckeditor.com/hc/en-us/articles/115002321145-How-can-I-upload-files-and-images-in-CKEditor-4-
+
+
+
+
+/*          scrum          */
+
+https://www.journaldunet.fr/web-tech/guide-de-l-entreprise-digitale/1443836-sprint-definition-planning-review-retrospective-backlog/
+
+/*     rami explaining scrum      */
+
+youtube.com/watch?v=C-vxyX5wkDs&ab_channel=RamiRaddaoui
+
+
+/*     amazon s3     */
+
+https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/s3-example-photo-album.html
+
+
+/*      Uncaught SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at HTMLDocument.<anonymous> (photoUpload.js:111)    */
+
+https://developers.suitecommerce.com/troubleshooting-uncaught-syntaxerror-unexpected-token-u-in-json-at-position-0.html
+
+
+
+/******** utile pour jquery **************/
+
+https://javarevisited.blogspot.com/2015/02/top-16-jquery-interview-questions.html#axzz6tQGOTfX4
+
+
+/*  plagiat    */
+
+https://smallseotools.com/fr/
+
+
+/**** scrum training ****/
+
+https://l.facebook.com/l.php?u=https%3A%2F%2Flnkd.in%2FdBpEUyW%3Ffbclid%3DIwAR2HRmRpd7nFId_zBgTOZ9A7RlpYFT9fWxSjvX49Z0EjV3WtjqXlvHX9Goo&h=AT19CbxwTqgKauchUhogBcCJu7SpHN2wdTxfnQ2Aaa3ED-vljaNOxnlaOiDGqJbXH3CqiVJdL0UKoKcH9jIL4PhudkBKf5D-1yZWXUKjim_ZGDQL2Pjc5go3qslhT22OkBdt&__tn__=-UK-R&c[0]=AT3vdFaZz3y_MuwewU_uotpsHW4nJjPeGgBSs1PS_dez-b7vspAOvEqizil3VnD7or30_6Bj4JL3jJaNhgOcVPH74ZLcoLxTFEzOZS8ILl3bXSYsg54dU797BWI-lYsv8uCozXeTpEQa_Mq-W7srybg3KedaMGT9Fe80MLD2mTv65_7gHS0qRqcfbIJjUb4bv_VbdZcIj5fo_9S73Q
+
+
+
+https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_OGQ2NTk2MDYtNDlmMi00NjU2LWI5NmEtMTk5MjY2ZjM0ODc0%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%252285dc32d8-51d1-4abd-8093-471a96abeb6e%2522%252c%2522Oid%2522%253a%2522d1724e9a-1aeb-44c0-a3f2-5a949155699c%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=b75b78df-371c-4227-8619-ed5858984f7e&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true
+
+/******* academia rapport GED **********/
+https://www.academia.edu/38642597/Plate_forme_de_Gestion_de_Documents_Electronique
+
+
+
+/****** json format symfony  *****/
+
+https://github.com/symfony/symfony/blob/5.1/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php

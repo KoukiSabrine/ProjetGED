@@ -24,10 +24,7 @@ class Projet
      */
     private $titre;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Equipe::class, mappedBy="projet")
-     */
-    private $equipe;
+    
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -54,6 +51,11 @@ class Projet
      */
     private $dureePrevue;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Equipe::class, mappedBy="projet")
+     */
+    private $equipe;
+
     public function __construct()
     {
         $this->equipe = new ArrayCollection();
@@ -63,6 +65,15 @@ class Projet
     {
         return $this->id;
     }
+
+    /**
+     * @return Collection|Equipe[]
+     */
+    public function getEquipe(): Collection
+    {
+        return $this->equipe;
+    }
+
 
     public function getTitre(): ?string
     {
@@ -76,35 +87,7 @@ class Projet
         return $this;
     }
 
-    /**
-     * @return Collection|Equipe[]
-     */
-    public function getEquipe(): Collection
-    {
-        return $this->equipe;
-    }
-
-    public function addEquipe(Equipe $equipe): self
-    {
-        if (!$this->equipe->contains($equipe)) {
-            $this->equipe[] = $equipe;
-            $equipe->setProjet($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEquipe(Equipe $equipe): self
-    {
-        if ($this->equipe->removeElement($equipe)) {
-            // set the owning side to null (unless already changed)
-            if ($equipe->getProjet() === $this) {
-                $equipe->setProjet(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     public function getEtat(): ?string
     {

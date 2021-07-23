@@ -62,24 +62,69 @@ class ProjetRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function getEquipesByProjetId($x)  {
+
+   
+
+    public function getUsers()  {
       $em = $this->getEntityManager();
       $rsm = new ResultSetMapping();
-      $sql=" SELECT e.id,e.nom,e.gerant_id FROM equipe as e
-           INNER JOIN projet as p ON p.id=e.projet_id 
-           WHERE p.id = ? " ;
+      $sql2 = "SELECT DISTINCT u.id,u.nom,u.prenom  FROM utilisateur as u
+            
+              ";
       $rsm->addScalarResult('id', 'id');
       $rsm->addScalarResult('nom', 'nom');
-      $rsm->addScalarResult('gerant_id', 'gerant_id');
+      $rsm->addScalarResult('prenom', 'prenom');
+      //$rsm->addScalarResult('niveau', 'niveau');
+      // $rsm->addScalarResult('created_at', 'createdAt');
+      // $rsm->addScalarResult('date_lancement', 'dateLancement');
+      // $rsm->addScalarResult('duree_prevue', 'dureePrevue');
+  
+  
+  
+     
+      $query = $em->createNativeQuery($sql2, $rsm);
+           
+      return $query->getResult();
+  }
+
+    public function getEquipes()  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT e.id,e.nom_eq,u.prenom ,e.projet_id,p.titre FROM equipe as e
+      INNER JOIN projet as p ON p.id=e.projet_id 
+       INNER JOIN utilisateur as u ON u.id=e.gerant_id "
+          ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('nom_eq', 'nom');
+      $rsm->addScalarResult('prenom', 'gerant');
+      $rsm->addScalarResult('titre', 'titre');
 
       //$rsm->addScalarResult('u.nom', 'ger');
       //$rsm->addScalarResult('gerant', 'gerant.nom');
 
       $query = $em->createNativeQuery($sql, $rsm);
-        $query->setParameter(1,$x);        
+               
         return $query->getResult();
 
     }
+
+    public function getDocuments()  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql2 = "SELECT DISTINCT d.id,d.nom FROM document as d
+            
+              ";
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('nom', 'nom');
+      
+  
+  
+  
+     
+      $query = $em->createNativeQuery($sql2, $rsm);
+           
+      return $query->getResult();
+  }
    
 
     public function getProjetIdByUserId($x)  {
@@ -95,6 +140,97 @@ class ProjetRepository extends ServiceEntityRepository
       $query->setParameter(1, $x);        
       return $query->getResult();
   }
+
+  public function getProjets()  {
+    $em = $this->getEntityManager();
+    $rsm = new ResultSetMapping();
+    $sql2 = "SELECT DISTINCT p.id,p.titre,p.etat,p.niveau,p.created_at,p.date_lancement,p.duree_prevue  FROM projet as p 
+          
+            ";
+    $rsm->addScalarResult('id', 'id');
+    $rsm->addScalarResult('titre', 'titre');
+    $rsm->addScalarResult('etat', 'etat');
+    $rsm->addScalarResult('niveau', 'niveau');
+    $rsm->addScalarResult('created_at', 'createdAt');
+    $rsm->addScalarResult('date_lancement', 'dateLancement');
+    $rsm->addScalarResult('duree_prevue', 'dureePrevue');
+
+
+
+   
+    $query = $em->createNativeQuery($sql2, $rsm);
+         
+    return $query->getResult();
+}
+  
+
+public function getProjetsByEtat()  {
+  $em = $this->getEntityManager();
+  $rsm = new ResultSetMapping();
+  $sql2 = "SELECT distinct p.id,p.titre,p.etat,p.niveau,p.created_at,p.date_lancement,p.duree_prevue  FROM projet as p 
+         
+         WHERE p.etat = 'en cours' ";
+  $rsm->addScalarResult('id', 'id');
+  $rsm->addScalarResult('titre', 'titre');
+  $rsm->addScalarResult('etat', 'etat');
+  $rsm->addScalarResult('niveau', 'niveau');
+  $rsm->addScalarResult('created_at', 'createdAt');
+  $rsm->addScalarResult('date_lancement', 'dateLancement');
+  $rsm->addScalarResult('duree_prevue', 'dureePrevue');
+
+
+
+ 
+  $query = $em->createNativeQuery($sql2, $rsm);
+       
+  return $query->getResult();
+}
+
+
+public function getProjetsByEtat2()  {
+  $em = $this->getEntityManager();
+  $rsm = new ResultSetMapping();
+  $sql2 = "SELECT distinct p.id,p.titre,p.etat,p.niveau,p.created_at,p.date_lancement,p.duree_prevue  FROM projet as p 
+         
+         WHERE p.etat = 'terminé' ";
+  $rsm->addScalarResult('id', 'id');
+  $rsm->addScalarResult('titre', 'titre');
+  $rsm->addScalarResult('etat', 'etat');
+  $rsm->addScalarResult('niveau', 'niveau');
+  $rsm->addScalarResult('created_at', 'createdAt');
+  $rsm->addScalarResult('date_lancement', 'dateLancement');
+  $rsm->addScalarResult('duree_prevue', 'dureePrevue');
+
+
+
+ 
+  $query = $em->createNativeQuery($sql2, $rsm);
+       
+  return $query->getResult();
+}
+
+public function getProjetsByEtat3()  {
+  $em = $this->getEntityManager();
+  $rsm = new ResultSetMapping();
+  $sql2 = "SELECT distinct p.id,p.titre,p.etat,p.niveau,p.created_at,p.date_lancement,p.duree_prevue  FROM projet as p 
+         
+         WHERE p.etat = 'début' ";
+  $rsm->addScalarResult('id', 'id');
+  $rsm->addScalarResult('titre', 'titre');
+  $rsm->addScalarResult('etat', 'etat');
+  $rsm->addScalarResult('niveau', 'niveau');
+  $rsm->addScalarResult('created_at', 'createdAt');
+  $rsm->addScalarResult('date_lancement', 'dateLancement');
+  $rsm->addScalarResult('duree_prevue', 'dureePrevue');
+
+
+
+ 
+  $query = $em->createNativeQuery($sql2, $rsm);
+       
+  return $query->getResult();
+}
+
 
 
     public function getUsersByEquipeId($x)  {
@@ -115,16 +251,63 @@ class ProjetRepository extends ServiceEntityRepository
 
     }
 
+    public function getEquipeByProjetId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT e.id,e.nom_eq,u.prenom,p.titre,u.nom,u.prenom FROM equipe as e
+           INNER JOIN projet as p ON p.id=e.projet_id 
+           INNER JOIN utilisateur as u ON u.id=e.gerant_id
+           WHERE p.id = ?" ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('nom_eq', 'nomEq');
+      $rsm->addScalarResult('titre', 'projet');
+      $rsm->addScalarResult('prenom', 'gerant');
+      $rsm->addScalarResult('nom', 'nom');
+      
+
+        
+
+     
+      //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+      $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1,$x);        
+        return $query->getResult();
+
+    }
+
     public function getRepertoiresByEquipeId($x)  {
       $em = $this->getEntityManager();
       $rsm = new ResultSetMapping();
-      $sql=" SELECT r.id,r.nom,r.equipe_id,repertoire_id FROM repertoire as r
+      $sql=" SELECT r.id,r.nom,r.equipe_id,repertoire_id,e.nom_eq FROM repertoire as r
            INNER JOIN equipe as e ON e.id=r.equipe_id 
            WHERE e.id = ?" ;
       $rsm->addScalarResult('id', 'id');
       $rsm->addScalarResult('nom', 'name');
       $rsm->addScalarResult('equipe_id', 'equipe');
       $rsm->addScalarResult('repertoire_id', 'repertoire');
+        $rsm->addScalarResult('nom_eq', 'nomEq');
+
+     
+      //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+      $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1,$x);        
+        return $query->getResult();
+
+    }
+    public function getRepertoiresByEtat($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT r.id,r.nom,r.equipe_id,repertoire_id,e.nom_eq FROM repertoire as r
+           INNER JOIN equipe as e ON e.id=r.equipe_id 
+           WHERE e.id = ?" ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('nom', 'name');
+      $rsm->addScalarResult('equipe_id', 'equipe');
+      $rsm->addScalarResult('repertoire_id', 'repertoire');
+        $rsm->addScalarResult('nom_eq', 'nomEq');
+
      
       //$rsm->addScalarResult('gerant', 'gerant.nom');
 
@@ -148,6 +331,60 @@ class ProjetRepository extends ServiceEntityRepository
       $rsm->addScalarResult('file', 'file');
       
      
+      //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+      $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1,$x);        
+        return $query->getResult();
+
+    }
+
+
+    public function getHistoriqueByDocumentId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT h.id,h.date_modif,h.aut_id,h.version_doc,h.remarque,h.etat_doc,h.file_his ,u.nom,u.prenom FROM historique as h
+           INNER JOIN document as d ON d.id=h.document_id 
+           INNER JOIN utilisateur as u ON u.id=h.aut_id
+
+           WHERE d.id = ? " ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('date_modif', 'date_modif');
+      $rsm->addScalarResult('aut_id', 'aut_id');
+      $rsm->addScalarResult('version_doc', 'version');
+      $rsm->addScalarResult('remarque', 'remarque');
+      $rsm->addScalarResult('etat_doc', 'etat');
+      $rsm->addScalarResult('file_his', 'file');
+
+      $rsm->addScalarResult('nom', 'nom');
+      $rsm->addScalarResult('prenom', 'prenom');
+
+
+
+
+      //$rsm->addScalarResult('gerant_id', 'gerant_id');
+
+      //$rsm->addScalarResult('u.nom', 'ger');
+      //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+      $query = $em->createNativeQuery($sql, $rsm);
+        $query->setParameter(1,$x);        
+        return $query->getResult();
+
+    }
+
+
+    public function getCommentaireByDocumentId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql=" SELECT c.id,c.comment FROM commentaire as c
+           INNER JOIN document as d ON d.id=c.document_id 
+           WHERE d.id = ? " ;
+      $rsm->addScalarResult('id', 'id');
+      $rsm->addScalarResult('comment', 'comment');
+      //$rsm->addScalarResult('gerant_id', 'gerant_id');
+
+      //$rsm->addScalarResult('u.nom', 'ger');
       //$rsm->addScalarResult('gerant', 'gerant.nom');
 
       $query = $em->createNativeQuery($sql, $rsm);

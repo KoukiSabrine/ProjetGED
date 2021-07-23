@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Projets</h1>
+
+        <table class="table">
+                <tbody>
+                <tr>
+                                <th>Id</th>
+                                <th>Titre</th>
+                                  <th>Etat</th>
+                                   <th>niveau</th>
+                                  <th>Créé à <th>
+                                    <th>Date de lancement<th>
+                                     <th>Durée prévue<th>
+                        
+                {% for projet in projetsEtat  %}
+                         
+                </tr> 
+                <tr>                 
+                                <td>{{ projet.id }}</td>
+                                <td>{{ projet.titre }}</td>
+                                <td>{{ projet.etat }}</td>
+                                <td>{{ projet.niveau }}</td>
+                                <td>{{ projet.createdAt }}</td>
+                                <td>{{ projet.dateLancement }}</td>
+                                <td>{{ projet.dureePrevue }}</td>
+                               
+                                 
+                                
+                                <td> <a class="btn btn-primary" href="{{ path('Liste_Equipes', {id: projet.id}) }}">Equipes</a></td>
+                </tr>
+                         
+                               
+                        
+                        {% endfor %}
+
+                </tbody>
+        </table>
+
+        
+
+        
+
+       
+{% endblock %}
