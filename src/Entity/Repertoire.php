@@ -6,9 +6,18 @@ use App\Repository\RepertoireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+
 
 /**
  * @ORM\Entity(repositoryClass=RepertoireRepository::class)
+ * * @ApiResource(
+ * normalizationContext={"groups"={"repertoire:read"}},
+ * denormalizationContext={"groups"={"repertoire:write"}}
+ * )
+
  */
 class Repertoire
 {
@@ -16,16 +25,23 @@ class Repertoire
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("repertoire:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("repertoire:read")
      */
     private $nom;
 
     /**
      * @ORM\OneToMany(targetEntity=Document::class, mappedBy="repertoire", orphanRemoval=true, cascade={"persist"})
+     * @Groups("projet:read")
+     * @ApiSubresource
+
      */
     private $document;
 
@@ -158,5 +174,9 @@ class Repertoire
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->getNom();
     }
 }

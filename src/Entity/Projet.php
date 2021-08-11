@@ -6,9 +6,17 @@ use App\Repository\ProjetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ORM\Entity(repositoryClass=ProjetRepository::class)
+ * * @ApiResource(
+ * normalizationContext={"groups"={"projet:read"}},
+ * denormalizationContext={"groups"={"projet:write"}}
+ * )
+
  */
 class Projet
 {
@@ -16,11 +24,14 @@ class Projet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("projet:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("projet:read")
      */
     private $titre;
 
@@ -28,11 +39,15 @@ class Projet
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("projet:read")
      */
     private $etat;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * 
+     * @Groups("projet:read")
      */
     private $niveau;
 
@@ -43,16 +58,22 @@ class Projet
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * 
+     * @Groups("projet:read")
      */
     private $dateLancement;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups("projet:read")
      */
     private $dureePrevue;
 
     /**
      * @ORM\OneToMany(targetEntity=Equipe::class, mappedBy="projet")
+     * @Groups("projet:read")
+     * @ApiSubresource
      */
     private $equipe;
 

@@ -131,13 +131,19 @@ button {
                                 <td><a class="ion-trash-a" href="{{ path('document_delete', {'id': document.id}) }}" style="font-size: 20px;color:red"></a></td>
                                 {# {% endif %} #}
                                 {# <td><a class="btn btn-warning mt-2" href="{{ path('document_update', {'id': document.id}) }}">Modifier</a></td> #}
-                          <td><a class="btn btn-warning" href="{{ path('edit_new' , {'id': document.id})}}">Mettre à jour</a></td>
+                          {# <td><a class="btn btn-warning" href="{{ path('edit_new' , {'id': document.id})}}">Mettre à jour</a></td> #}
+                              <td><a class="ion-edit" href="{{ path('edit_new', {'id': document.id}) }}" style="font-size: 20px;color:orange"></a></td>
+
 
                                 {#<td><a class="btn btn-primary mt-2" href="{{ path('document_download', {'id': document.id}) }}">Télécharger</a></td>#}
                                 {# <td><a class="btn btn-primary mt-2" href="{{ path('tag_new', {'id': document.id}) }}">Add Tag</a></td> #}
-                                <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Comments', {'id': document.id}) }}">Commentaires</a></td>
-                                <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Historique', {'id': document.id}) }}">Historique</a></td>
-                                 <td><a class="ion-android-download" href="{{asset('images/' ~ document.nom)}}" style="font-size: 20px;"></a></td>
+                                {# <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Comments', {'id': document.id}) }}">Commentaires</a></td> #}
+                              <td><a class=" fa fa-comments" href="{{ path('Liste_Comments', {'id': document.id}) }}" style="font-size: 20px"></a></td>
+
+                              {# <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Historique', {'id': document.id}) }}">Historique</a></td> #}
+                            <td><a class="ion-calendar" href="{{ path('Liste_Historique', {'id': document.id}) }}" style="font-size: 20px"></a></td>
+
+                              <td><a class="ion-android-download" href="{{asset('images/' ~ document.nom)}}" style="font-size: 20px;"></a></td>
 
                         {# <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Comments', {'id': document.id}) }}">  Commentaires</a></td> #}
 

@@ -103,6 +103,8 @@ button {
  
 {% block body %}
   <section class="content">
+                                  {# <span class="fa fa-folder-open"  style="font-size: 30px;color:khaki"></span><br><br> #}
+
 
     <h1>Repertoires</h1>
     {% if ((equipe.getGerant()) is same as (user)) or  (is_granted('ROLE_ADMIN')) %}
@@ -126,11 +128,14 @@ button {
                          
                 </tr> 
                 <tr>                 
+
                                 <td>{{ repertoire.id }}</td>
                                 <td>{{ repertoire.name}}</td>
                                 <td>{{ repertoire.nomEq }}</td> 
                                 {#<td>{{ repertoire.repertoire }}</td>#}
-                                <td><a class="btn btn-primary" href="{{ path('Liste_SousRepertoires', {id: repertoire.id}) }}" >Sous Répertoires</a></td>
+                                {# <td><a class="btn btn-primary" href="{{ path('Liste_SousRepertoires', {id: repertoire.id}) }}" >Sous Répertoires</a></td> #}
+                                <td> <a class="ion-folder" href="{{ path('Liste_SousRepertoires', {id: repertoire.id}) }}" style="font-size: 30px;color:khaki"></a></td>
+
                                 <td><a class="ion-android-document" href="{{ path('Liste_Documents', {id: repertoire.id}) }}" style="font-size: 20px"></a></td>
                                     {% if ((equipe.getGerant()) is same as (user)) or  (is_granted('ROLE_ADMIN')) %}
 

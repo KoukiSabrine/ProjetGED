@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commentaire{% endblock %}
+{% block title %}Supprimer Utilisateur{% endblock %}
 {% block stylesheets %}
             {#{{ encore_entry_link_tags('app') }}#}
             <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
@@ -95,52 +95,51 @@ button {
         {% endblock %}
 
 {% block body %}
- <section class="content">
-     {# <a class="btn btn-primary" href="{{ path('comment_new' )}}">Ajouter un commentaire</a> #}
-         <a class="ion-android-add-circle" href="{{ path('comment_new') }}" style="font-size: 30px;color:green"></a>
+  <section class="content">
 
+        <h1>Supprimer Utilisateur</h1>
+        <fieldset>
+               {# <legend>Modification</legend>#}
+                {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
+                {# utilisation de classes bootstrap pour la mise en forme #}
+                        <div class="row">
+                         {# <div class="col-12">
+                                        {{ form_label(form.nom) }}
+                                        {{ form_widget(form.nom) }}
+                                </div> #}
+                                 <div class="col-12">
+                                     
+                                </div>
 
-    <h1>Commentaires</h1>
-
-        <table class="table">
-                <tbody>
-                <tr>
-                                
-                                <th>Id</th>
-                                  <th>Comment</th>
-                                  
-                                  
-                                      </tr> 
-                        
-                {% for comment in comments  %}
-                         
-               
-                <tr>                 
-                                
-                                <td>{{ comment.id }}</td>
-                                <td>{{ comment.comment }}</td>
-                                
-                                 
-                        
-       
-                                
                                
+                                 <div class="col-12">
+                                       {# {{ form_label(form.projet) }}
+                                       {{ form_widget(form.projet) }}  #}
+                                </div>
+                                {# <div class="col-12">
+                                        {{ form_label(form.gerant) }}
+                                        {{ form_widget(form.gerant) }}
+                                </div> #}
+
+                                 <div class="col-12">
+                                        {{ form_label(form.membre) }}
+                                        {{ form_widget(form.membre) }}
+                                </div>
                                
-                </tr>
-                         
-                               
-                        
-                        {% endfor %}
+                                <div class="col-12">
+                                       {# <label for="verifpass">Saisir une seconde fois le mot de passe</label>#}
+                                       
+                                </div>
+                        </div>
+                        <br>
+                       <div class="col-12"> <button class="btn btn-success">{{ button_label|default('Supprimer Utilisateur') }}</button></div>
+                {{ form_end(form) }}
+        </fieldset>
 
-                </tbody>
-        </table>
+      </section>
 
-        
-
-        
-</section>
-       
 {% endblock %}
+
 {% block javascripts %}
  
                         {#<script src="/js/script.js"></script>#}

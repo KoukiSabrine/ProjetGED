@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="/css/style.css" />
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/css/timeline.min.css" />
+ <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+             {#<link rel="stylesheet" href="/plugin2/bootstrap.min.css"/>#}
+            <link rel="stylesheet" href="/plugin2/css/demo.css"/>
+                      <link rel="stylesheet" href="/plugin2/css/metroStyle/metroStyle.css"/>
 <style>
 .timeline__content {
     background-color: #fff;
@@ -177,6 +181,30 @@ button {
   font-weight:600;
   background:#fff;
 }
+
+
+
+          <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+  <!-- Morris chart -->
+  <link rel="stylesheet" href="/bower_components/morris.js/morris.css">
+  <!-- jvectormap -->
+  <link rel="stylesheet" href="/bower_components/jvectormap/jquery-jvectormap.css">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <!-- bootstrap wysihtml5 - text editor -->
+  <link rel="stylesheet" href="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </style>
 
 {% endblock %}
@@ -184,28 +212,78 @@ button {
 
 {% block body %}
 
- <nav class="navbar navbar-light bg-dark">
-                        <div >  &nbsp; &nbsp;&nbsp;  <img src="/images/home.png" style="width: 32px ; height: 32px"/>
-                        <a class="text-light" href="{{ path('home') }} " style=" font-size: 180%"  >Accueil</a></div>
+  <nav class="navbar navbar-light bg-dark">
+                        {# <div >  &nbsp; &nbsp;&nbsp;  <img src="/images/home.png" style="width: 32px ; height: 32px"/> #}
+                        <a class="ion-home" href="{{ path('home') }} " style=" font-size: 25px;color:white"  ></a></div>
                                 {#<a class="btn btn-outline-info" href="{{ path('membre') }}">Page membre</a>#}
-                                {% if is_granted('ROLE_ADMIN') %}
+                                {# {% if is_granted('ROLE_ADMIN') %} #}
                                         {# <a class="btn btn-outline-warning" href="{{ path('admin') }}">Page admin</a> #}
-                                                                                                           <center>    <div class="row"> <img src="/images/gif2.png" style="width: 20px ; height: 20px"/> &nbsp; <h5 style="color:grey">Bonjour {{ app.user.username }}</h5></div></center>
-
-                                {% endif %}
-
-                                <div style="color:white; font-size: medium" >
-                           Bonjour {{ app.user.username }} 
+                                                                                                            {# <div style="color:white; font-size: medium" ><img src="/images/gif2.png" style="width: 20px ; height: 20px"/>
+                           Bonjour {{ app.user.username }}  #}
                                        {# <button type="button" class="btn btn-outline-danger" href="{{ path('app_logout') }}">Déconnexion</button> #}
                                        
                                     
 {# &nbsp; #}
-                                        <a class="btn btn-sm btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                                        {# <a class="btn btn-sm btn-danger" href="{{ path('app_logout') }}">Déconnexion</a> #}
+
                                {#{% if is_granted('ROLE_ADMIN') %} #}
-                                       <a class="btn btn-primary mt-1" href="{{ path('utilisateur_edit', {'id': app.user.id}) }}">Modifier mon compte</a>
+                                       {# <a class="btn btn-primary mt-1" href="{{ path('utilisateur_edit', {'id': app.user.id}) }}">Modifier mon compte</a> #}
+                                {#{% endif %} #}
+                                
+                                {# </div> #}
+                                {# {% else %}
+                                 <div style="color:white; font-size: medium" >
+                           Bonjour {{ app.user.username }}  #}
+                                       {# <button type="button" class="btn btn-outline-danger" href="{{ path('app_logout') }}">Déconnexion</button> #}
+                                       
+                                    
+{# &nbsp; #}
+                                        {# <a class="btn btn-sm btn-danger" href="{{ path('app_logout') }}">Déconnexion</a> #}
+                                        <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white">
+              <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" style="width: 30px ; height: 30px">&nbsp;
+              <span class="hidden-xs" style="color:white; font-size: medium">{{app.user|title}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header" style="color:white" >
+               <center> <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" style="width: 50px ; height: 50px"></center>
+
+               <center> <p >
+                  {{app.user|title}}
+                  <small>Member since Nov. 2012</small>
+                </p></center>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body">
+                
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  {# <a href="{{ path('utilisateur_edit', {'id': app.user.id}) }}" class="btn btn-default btn-flat">Modifier</a> #}
+                                    {# <a href="{{ path('utilisateur_edit', {'id': app.user.id}) }}" class="btn btn-primary">Modifier</a> #}
+                                    <a class="ion-edit" href="{{ path('utilisateur_edit' , {'id': app.user.id})}}" style="font-size: 20px;color:white"></a>
+
+
+                </div>
+                <div class="pull-right">
+                  {# <a href="{{ path('app_logout') }}" class="btn btn-primary">Sign out</a> #}
+                  <a class="ion-log-out" href="{{ path('app_logout')}}" style="font-size: 20px;color:white"></a>
+
+                </div>
+              </li>
+            </ul>
+          </li>
+                               {#{% if is_granted('ROLE_ADMIN') %} #}
+                                       {# <a class="btn btn-primary mt-1" href="{{ path('utilisateur_edit', {'id': app.user.id}) }}">Modifier mon compte</a> #}
                                 {#{% endif %} #}
                                 
                                 </div>
+                                {# {% endif %} #}
+
+                               
                                                </nav>
      {# <a class="btn btn-primary" href="{{ path('edit_new' )}}">Mettre à jour</a> #}
     
@@ -322,5 +400,7 @@ $(document).ready(function(){
     jQuery('.timeline').timeline();
 });
 </script>
+
+
 {% endblock %}
 

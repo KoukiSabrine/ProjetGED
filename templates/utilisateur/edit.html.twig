@@ -123,21 +123,21 @@ button {
                                         {{ form_widget(form.password) }}
                                 </div>
                                 <div class="col-12">
-                                        <label for="verifpass">Saisir une seconde fois le mot de passe</label>
+                                        <label for="verifpass">Saisir une seconde fois le mot de passe</label><br>
                                         <input type="password" id="verifpass" required>
                                 </div>
                         </div>
-                        <br>
-                        <div class="col-12"><button class="btn btn-success">{{ button_label|default('Mettre à jour') }}</button></div>
+                        <br><br>
+                        <div class="col-12"><button class="btn btn-success" style="margin-left:-430px;">{{ button_label|default('Mettre à jour') }}</button></div>
                 {{ form_end(form) }}
         </fieldset>
 
-      {% if is_granted('ROLE_ADMIN') %}
+      {# {% if is_granted('ROLE_ADMIN') %}
         <a class="btn btn-outline-primary" href="{{ path('admin') }}">Page admin</a>
  {% else %}
    <a class="btn btn-outline-primary" href="{{ path('membre') }}">Page membre</a>
   {% endif %}
-        {{ include('utilisateur/_delete_form.html.twig') }}
+        {{ include('utilisateur/_delete_form.html.twig') }} #}
 
 
 </section>

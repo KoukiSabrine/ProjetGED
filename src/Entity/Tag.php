@@ -4,9 +4,15 @@ namespace App\Entity;
 
 use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=TagRepository::class)
+ * @ORM\Entity(repositoryClass=TagRepository::class)** @ApiResource(
+ * normalizationContext={"groups"={"tag:read"}},
+ * denormalizationContext={"groups"={"tag:write"}}
+ * )
+
  */
 class Tag
 {
@@ -14,11 +20,15 @@ class Tag
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("tag:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("tag:read")
      */
     private $tag;
 

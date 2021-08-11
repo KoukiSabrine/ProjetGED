@@ -4,9 +4,16 @@ namespace App\Entity;
 
 use App\Repository\CommentaireRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CommentaireRepository::class)
+ * * @ApiResource(
+ * normalizationContext={"groups"={"commentaire:read"}},
+ * denormalizationContext={"groups"={"commentaire:write"}}
+ * )
+
  */
 class Commentaire
 {
@@ -14,11 +21,16 @@ class Commentaire
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("commentaire:read")
+
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Groups("commentaire:read")
      */
     private $comment;
 

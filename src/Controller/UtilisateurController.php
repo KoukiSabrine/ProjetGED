@@ -14,6 +14,7 @@ use App\Entity\Repertoire;
 use App\Entity\Tag;
 use App\Form\AffectToEquipeType;
 use App\Form\CommentaireType;
+use App\Form\DeleteUserFromTeamType;
 use App\Form\RepertoireType;
 use App\Form\DocumentType;
 use App\Form\EditDocumentType;
@@ -127,7 +128,19 @@ class UtilisateurController extends AbstractController
                $listUsers=$projetRepository->getUsers();
                $listDocs=$projetRepository->getDocuments();
                $equipes=$projetRepository->getEquipes();
+               
+               
+        
+               $listPr=$projetRepository->getProjetsByUserId( $this->getUser()->getId());
+               $listEq=$projetRepository->getEquipesByUserId($this->getUser()->getId());
+               $listRep=$projetRepository-> getRepertoiresByUserId($this->getUser()->getId());
+               $docs=$projetRepository-> getDocumentsByUserId($this->getUser()->getId());
+               //$users=$projetRepository->getUsers();
+               
 
+              
+               
+               
 
                //dd($listUsers);
 
@@ -151,7 +164,10 @@ class UtilisateurController extends AbstractController
                                 ,'projetsDébut' =>$listDebut ,'users'=>$listUsers  ,'docs'=>$listDocs,'equipes'=>$equipes]);
                 }
 
-                return $this->redirectToRoute('membre');
+                 return $this->render('navigation/membre.html.twig',  [
+                        'projetsByUser' => $listPr,'equipesByUser' =>$listEq ,'repsByUser' =>$listRep,'docsByUser' =>$docs ]);
+
+                  //return $this->render('navigation/membre.html.twig');
         }
 
 
@@ -232,7 +248,7 @@ public function newProjet(Request $request,Session $session): Response
       $em->flush();
                          
 
-      return $this->redirectToRoute('home');
+      return $this->redirectToRoute('Liste_Projets_Admin');
     
       
   }
@@ -292,7 +308,7 @@ public function editProjet(Request $request,Session $session,Projet $prj): Respo
       $em->flush();
             
 
-      return $this->redirectToRoute('home');
+      return $this->redirectToRoute('Liste_Projets_Admin');
    
       
   }
@@ -323,7 +339,7 @@ return $this->render('projet/editProjet.html.twig',[
                         //dd('ok');
                         $entityManager->flush();
                        
-                        return $this->redirectToRoute('home');
+                        return $this->redirectToRoute('Liste_Projets_Admin');
                                 
                         //}
                         //return $this->redirectToRoute('docoment/documentList.html.twig');
@@ -370,9 +386,9 @@ return $this->render('projet/editProjet.html.twig',[
      *
      */
     public function showEquipeAdmin(Projet $projet,Session $session,ProjetRepository $projetRepository): Response
-    {       
+    {   $session->set('prAdmin',$projet);
+        
         $list = $projetRepository->getEquipeByProjetId($projet->getId());
-        $session->set('prAdmin',$projet);
         
        // $session->set('list',$list);
         //dd($session->get('list'));
@@ -381,6 +397,9 @@ return $this->render('projet/editProjet.html.twig',[
                 
         ]);  
     }
+
+
+   
 
 
 
@@ -490,18 +509,28 @@ public function editEquipe(Request $request,Session $session,Equipe $eq): Respon
 
         
        // dd($eq);
-       $m=$eq->getMembre();
+//        $m=$eq->getMembre();
        //dd($eq);
   $equipe=new Equipe();
   $form=$this->createForm(EditEquipeType::class,$equipe);
   $form->handleRequest($request);
- 
+  $o=$session->set('eqq',$eq);
+  $eqq=$session->get('eqq');
+
+  //dd($eqq);
+
  
   if($form->isSubmitted() && $form->isValid()){
       
         $gerant=$form->get('gerant')->getData();       
-       
+         $m=$form->get('membre')->getData();
+        //dd($m);
+        foreach($m as $m1){
+                $eq->addMembre($m1);
+        }
+        //dd($eq->getMembre());
         $eq->setGerant($gerant);
+        
               
          
       $em=$this->getDoctrine()->getManager();
@@ -523,13 +552,68 @@ return $this->render('equipe/editEquipe.html.twig',[
 }
 
 
+ /**
+     * @Route("/{id}/deleteUserFromEq",name="userEq_delete")
+     * @param Request $request
+     */
+
+    public function deleteUserFromEq(Request $request,Session $session,Equipe $eq): Response
+      {
+        $equipe=new Equipe();
+       
+        $form=$this->createForm(DeleteUserFromTeamType::class,$equipe);
+        //dd('ok');      
+
+        $form->handleRequest($request);
+       
+        // $rep = $this->getDoctrine()->getRepository(Equipe::class);
+        // $pp=$rep->findOneBy(["id"=>$equipe->getId()]);
+        $eqq=$session->get('eqq');
+                //dd($eqq);
+
+        $list=$eqq->getMembre();
+        //$users=$eqq->get
+        if($form->isSubmitted() && $form->isValid()){
+            
+        //       $gerant=$form->get('gerant')->getData();       
+               $m=$form->get('membre')->getData();
+              //dd($m);
+              foreach($m as $m1){
+                      $eq->removeMembre($m1);
+              }
+              //dd($eq->getMembre());
+        //       $eq->setGerant($gerant);
+              
+                    
+               
+            $em=$this->getDoctrine()->getManager();
+          
+            $em->persist($eq);
+            //dd('ok');  
+            $em->flush();
+                  
+            return $this->render('utilisateur/show.html.twig',[
+                'eq' =>$eqq,'users' =>$list
+              ]);
+
+                        
+      }
+      return $this->render('equipe/deleteUserFromEq.html.twig',[
+        'form'=>$form->createView(),'eq' =>$eqq
+      ]);
+}
+
+
   /**
      * @Route("/{id}/deleteEquipe",name="equipe_delete")
      * @param Request $request
      */
 
-    public function deleteEquipe(Request $request,Session $session,Equipe $equipe): Response
-      {                                             
+    public function deleteEquipe(Request $request,Session $session,Equipe $equipe,ProjetRepository $projetRepository): Response
+      {                              $projet=$session->get('prAdmin');
+        $list = $projetRepository->getEquipeByProjetId($projet->getId());
+
+                
                         
                         //$session->set('document',$document);
                          //dd($session);
@@ -539,6 +623,10 @@ return $this->render('equipe/editEquipe.html.twig',[
                         $entityManager->flush();
                        
                         return $this->redirectToRoute('home');
+                        // return $this->render('equipe/equipeListAdmin.html.twig',  [
+                        //         'equipes' =>  $list
+                                
+                        // ]);  
                                 
                         //}
                         //return $this->redirectToRoute('docoment/documentList.html.twig');
@@ -567,7 +655,7 @@ return $this->render('equipe/editEquipe.html.twig',[
         $list=$equipe->getMembre();
         
         return $this->render('utilisateur/show.html.twig',  [
-                'users' =>  $list
+                'users' =>  $list,'eq' =>$equipe
         ]);  
     }
 
@@ -667,6 +755,8 @@ return $this->render('equipe/editEquipe.html.twig',[
         $form->handleRequest($request);
         //dd($form);
         $equipe=$session->get('equipe');
+        
+
         //dd($equipe);
         if($form->isSubmitted() && $form->isValid()){
                 
@@ -679,8 +769,10 @@ return $this->render('equipe/editEquipe.html.twig',[
            //dd($rep);
     
            $repertoire->setEquipe($pp);
+             
+
            $session->set('rep',$repertoire);
-           //dd($session);
+           //dd($session->get('rep'));
            $sr=new Repertoire();
            $sr->setEquipe($pp);
            $sr->setNom('ml');
@@ -726,13 +818,14 @@ return $this->render('repertoire/addRepertoire.html.twig',[
 
     public function showSousRepertoire(Repertoire $repertoire,ProjetRepository $projetRepository,Session $session): Response
     {       
-        
-     $s=$session->get('rep');
-     //dd($s);
-     $listSousRep=$repertoire->addSousRepertoire($s);
-     dd( $listSousRep);
-
-   
+     $utilisateur = $this->getUser();
+     $reppp=$session->get('rep');
+ //dd($reppp->getId());
+     $listSousRep=$repertoire->getSousRepertoire();
+     //dd( $listSousRep);
+      //dd($session);
+   $equipe=$session->get('equipe');
+   //dd($equipe);
     /* $ss=$session->get('sr');
      dd($ss);
 
@@ -745,9 +838,79 @@ return $this->render('repertoire/addRepertoire.html.twig',[
 
    
         return $this->render('sousRepertoire/sousRepertoireList.html.twig',  [
-             'sousRepertoires'=> $listSousRep
+             'sousRepertoires'=> $listSousRep,'equipe' =>$equipe,'user' =>$utilisateur
         ]);  
     }
+
+
+
+
+    /**
+ * @Route("/repertoire/newSousRepertoire",name="sous_repertoire_new")
+ * @param Request $request
+ * @return Response
+ */
+
+public function newSousRepertoire(Request $request,Session $session): Response
+{
+  $repertoire=new Repertoire();
+  $sousRep=$repertoire->getRepertoire();
+  $form=$this->createForm(RepertoireType::class,$repertoire);
+  $form->handleRequest($request);
+  //dd($form);
+  $equipe=$session->get('equipe');
+  $reppp=$session->get('repertoire');
+  //dd($reppp);
+  if($form->isSubmitted() && $form->isValid()){
+          
+       //$ep=$form->getData();
+       //dd($equipe);
+      //$repertoire->setEquipe($equipe);
+      $rep = $this->getDoctrine()->getRepository(Equipe::class);
+     $pp=$rep->findOneBy(["id"=>$equipe->getId()]);
+
+     //dd($rep);
+
+     $repertoire->setEquipe($pp);
+     //->setRepertoire($reppp);
+     //$reppp->setRepertoire($repertoire);
+//      $session->set('rep',$repertoire);
+     //dd($session);
+//      $sr=new Repertoire();
+//      $sr->setEquipe($pp);
+//      $sr->setNom('ml');
+     //dd($sr);
+     //$session->set('sr',$sr);
+     //$repertoire->setRepertoire($sr);
+     //dd($session->get('sr'));
+     
+   
+      //$repertoire->setRepertoire($sr);
+      //dd($repertoire);
+      $reppp->addSousRepertoire($repertoire);
+      dd('ok');
+      //dd($repertoire->getSousRepertoire()) ;   
+       //dd($reppp->getSousRepertoire()) ;
+       //dd($reppp);  
+      $em=$this->getDoctrine()->getManager();
+    
+      $em->persist($reppp);
+    //dd($reppp);
+    //$em->clear($reppp);
+      $em->flush();
+                         
+
+      return $this->redirectToRoute('home');
+    
+      
+  }
+
+
+return $this->render('repertoire/addRepertoire.html.twig',[
+  'form'=>$form->createView()
+]);
+}
+    
 
 
     /**
@@ -806,7 +969,7 @@ public function showDocument(ProjetRepository $projetRepository,Repertoire $repe
 
         
         $session->set('repertoire',$repertoire);
-        //dd($listDoc);
+        //dd($session->get('repertoire'));
        
 
 
@@ -1301,7 +1464,10 @@ return $this->render('historique/addHistorique.html.twig',[
 
                 //test de sécurité, un utilisateur connecté ne peut pas s'inscrire
                 $utilisateur = $this->getUser();
-                if($utilisateur->getRoles()=='[]')
+                // if($utilisateur->getRoles()=='[]')
+      if($utilisateur->getRoles()=='[]')
+
+                
                 {
                         $session->set("message", "Vous ne pouvez pas créer un compte lorsque vous êtes connecté");
                         return $this->redirectToRoute('membre');
@@ -1378,6 +1544,20 @@ return $this->render('historique/addHistorique.html.twig',[
                 ]);
                 
         }
+
+            /**
+     * @Route("/showUser", name="Liste_users", methods={"GET"})
+     *
+     */
+//     public function showUsers(ProjetRepository $projetRepository): Response
+//     {
+        
+//         $list=$projetRepository->getUsers();
+//         return $this->render('utilisateur/userList.html.twig',  [
+//                 'projets' =>$list   ]); 
+
+            
+//     }
 
 
         

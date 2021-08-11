@@ -117,7 +117,7 @@ button {
                          
                
                 <tr>                 
-                                
+
                                 <td>{{ equipe.id }}</td>
                                 <td>{{ equipe.nomEq }}</td>
                                 <td>{{ equipe.projet }}</td>
@@ -127,7 +127,9 @@ button {
                                  
                         
        
-                                <td><a class="btn btn-warning" href="{{ path('edit_equipe' , {'id': equipe.id})}}">Mettre à jour</a></td>
+                                {# <td><a class="btn btn-warning" href="{{ path('edit_equipe' , {'id': equipe.id})}}">Mettre à jour</a></td> #}
+                                <td><a class="ion-edit" href="{{ path('edit_equipe', {'id': equipe.id}) }}" style="font-size: 20px;color:orange"></a></td>
+
                                 <td><a class="ion-trash-a" href="{{ path('equipe_delete', {'id': equipe.id}) }}" style="font-size: 20px;color:red"></a></td>
 
 

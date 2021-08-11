@@ -5,10 +5,17 @@ namespace App\Entity;
 use App\Repository\HistoriqueRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass=HistoriqueRepository::class)
+ * * @ApiResource(
+ * normalizationContext={"groups"={"historique:read"}},
+ * denormalizationContext={"groups"={"historique:write"}}
+ * )
+
  */
 class Historique
 {
@@ -16,6 +23,8 @@ class Historique
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("historique:read")
      */
     private $id;
 
@@ -38,16 +47,22 @@ class Historique
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("historique:read")
      */
     private $versionDoc;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("historique:read")
      */
     private $remarque;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("historique:read")
      */
     private $etatDoc;
 

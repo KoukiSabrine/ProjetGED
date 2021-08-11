@@ -63,6 +63,72 @@ class ProjetRepository extends ServiceEntityRepository
     }
 
 
+    public function getEquipesByUserId($x)  {
+      $em = $this->getEntityManager();
+      $rsm = new ResultSetMapping();
+      $sql2 = "SELECT DISTINCT e.id,e.nom_eq,e.projet_id FROM equipe as e
+             
+             INNER JOIN equipe_utilisateur as m ON m.equipe_id=e.id 
+             WHERE m.utilisateur_id = ?";
+       $rsm->addScalarResult('id', 'id');
+       $rsm->addScalarResult('nom_eq', 'nom');
+       $rsm->addScalarResult('prenom', 'gerant');
+      //  $rsm->addScalarResult('titre', 'titre');
+      $query = $em->createNativeQuery($sql2, $rsm);
+      $query->setParameter(1, $x);        
+      return $query->getResult();
+  }
+
+
+  public function getRepertoiresByUserId($x)  {
+    $em = $this->getEntityManager();
+    $rsm = new ResultSetMapping();
+    $sql=" SELECT r.id,r.nom,r.equipe_id,repertoire_id,e.nom_eq FROM repertoire as r
+         INNER JOIN equipe as e ON e.id=r.equipe_id 
+         INNER JOIN equipe_utilisateur as m ON m.equipe_id=e.id 
+
+         WHERE m.utilisateur_id = ?" ;
+    $rsm->addScalarResult('id', 'id');
+    $rsm->addScalarResult('nom', 'name');
+    $rsm->addScalarResult('equipe_id', 'equipe');
+    $rsm->addScalarResult('repertoire_id', 'repertoire');
+      $rsm->addScalarResult('nom_eq', 'nomEq');
+
+   
+    //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+    $query = $em->createNativeQuery($sql, $rsm);
+      $query->setParameter(1,$x);        
+      return $query->getResult();
+
+  }
+
+  public function getDocumentsByUserId($x)  {
+    $em = $this->getEntityManager();
+    $rsm = new ResultSetMapping();
+    $sql=" SELECT d.id,d.nom,d.repertoire_id,d.url,d.file FROM document as d
+         INNER JOIN repertoire as r ON r.id=d.repertoire_id 
+         INNER JOIN equipe_utilisateur as m ON m.equipe_id=r.equipe_id
+         
+         WHERE m.utilisateur_id = ?" ;
+    $rsm->addScalarResult('id', 'id');
+    $rsm->addScalarResult('nom', 'nom');
+    $rsm->addScalarResult('repertoire_id', 'repertoire_id');
+    $rsm->addScalarResult('url', 'url');
+    $rsm->addScalarResult('file', 'file');
+    
+   
+    //$rsm->addScalarResult('gerant', 'gerant.nom');
+
+    $query = $em->createNativeQuery($sql, $rsm);
+      $query->setParameter(1,$x);        
+      return $query->getResult();
+
+  }
+
+  
+
+
    
 
     public function getUsers()  {
@@ -141,6 +207,9 @@ class ProjetRepository extends ServiceEntityRepository
       return $query->getResult();
   }
 
+
+
+  
   public function getProjets()  {
     $em = $this->getEntityManager();
     $rsm = new ResultSetMapping();

@@ -98,7 +98,7 @@ button {
 {% block body %}
 
   <section class="content">
-    <h1>Projets</h1>
+    <h1>Liste des projets</h1>
         <a class="ion-android-add-circle" href="{{ path('projet_new') }}" style="font-size: 30px;color:green"></a><br>
 <br>
 
@@ -121,14 +121,18 @@ button {
                                 <td>{{ projet.titre }}</td>
                                 <td>{{ projet.etat }}</td>
                                 <td>{{ projet.niveau }}</td>
-                                <td>{{ projet.createdAt }}</td>
-                                <td>{{ projet.dateLancement }}</td>
+                                <td colspan="2">{{ projet.createdAt }}</td>
+                                <td colspan="2">{{ projet.dateLancement }}</td>
                                 <td>{{ projet.dureePrevue }}</td>
                                
                                  
                              
-                                <td> <a class="btn btn-primary" href="{{ path('Liste_Equipes_Admin', {id: projet.id}) }}"> Equipes</div></a></td>
-                                <td><a class="btn btn-warning" href="{{ path('edit_projet' , {'id': projet.id})}}">Mettre à jour</a></td>
+                                {# <td> <a class="btn btn-primary" href="{{ path('Liste_Equipes_Admin', {id: projet.id}) }}"> Equipes</div></a></td> #}
+                                  <td><a class="ion ion-ios-people-outline" href="{{ path('Liste_Equipes_Admin', {'id': projet.id}) }}" style="font-size: 30px"></a></td>
+
+                                {# <td><a class="btn btn-warning" href="{{ path('edit_projet' , {'id': projet.id})}}">Mettre à jour</a></td> #}
+                                <td><a class="ion-edit" href="{{ path('edit_projet', {'id': projet.id}) }}" style="font-size: 20px;color:orange"></a></td>
+
                                 <td><a class="ion-trash-a" href="{{ path('projet_delete', {'id': projet.id}) }}" style="font-size: 20px;color:red"></a></td>
 
 

@@ -7,10 +7,97 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Controller\DocumentController;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=DocumentRepository::class)
+ *  @Vich\Uploadable
+ * *  @ApiResource(
+ *     iri="https://schema.org/Document",
+ *     shortName="Place",
+ *     collectionOperations={
+ *          "post" = {
+ *              "denormalization_context" = {
+ *                  "groups"={
+ *                      "document:collection:post"
+ *                  }
+ *              }
+ *          },
+ *          "get" = {
+ *              "normalization_context" = {
+ *                  "groups"={
+ *                      "document:collection:get"
+ *                  }
+ *              }
+ *          }
+ *     },
+ *     itemOperations={
+ *          "get",
+ *          "DocumentController::OPERATION_NAME" = {
+ *              "groups"={"logo:post"},
+ *              "method"="POST",
+ *              "path"="/documents/{id}/file",
+ *              "controller"=DocumentController::class,
+ *              "deserialize"=false,
+ *              "validation_groups"={"Default", "logo_create"},
+ *              "openapi_context"={
+ *                  "summary"="Uploads logo file to given Document resource",
+ *                  "requestBody"={
+ *                      "content"={
+ *                          "multipart/form-data"={
+ *                              "schema"={
+ *                                  "type"="object",
+ *                                  "properties"={
+ *                                      "logoFile"={
+ *                                          "type"="string",
+ *                                          "format"="binary"
+ *                                      }
+ *                                  }
+ *                              }
+ *                          }
+ *                      }
+ *                  }
+ *              }
+ *          }
+ *     }
+ * )
+ * 
  */
+// #[ApiResource(
+    // iri: 'http://schema.org/MediaObject',
+    // normalizationContext: ['groups' => ['media_object:read']],
+    // itemOperations: ['get'],
+    // collectionOperations: [
+    //     'get',
+    //     'post' => [
+    //         'controller' => DocumentController::class,
+    //         'deserialize' => false,
+    //         'validation_groups' => ['Default', 'media_object_create'],
+    //         'openapi_context' => [
+    //             'requestBody' => [
+    //                 'content' => [
+    //                     'multipart/form-data' => [
+    //                         'schema' => [
+    //                             'type' => 'object',
+    //                             'properties' => [
+    //                                 'file' => [
+    //                                     'type' => 'string',
+    //                                     'format' => 'binary',
+    //                                 ],
+    //                             ],
+    //                         ],
+    //                     ],
+    //                 ],
+    //             ],
+    //         ],
+    //     ],
+    // ]
+// )]
 class Document
 {
 
@@ -19,46 +106,70 @@ class Document
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("document:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("document:read")
+     * @Groups("document:write")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     *  @Groups("document:read")
+     * @Groups("document:write")
      */
     private $url;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     *  @Groups("document:read")
+     * @Groups("document:write")
      */
     private $urlComplet;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     *  @Groups("document:read")
+     * @Groups("document:write")
      */
     private $Etat;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     *  @Groups("document:read")
+    * @Groups("document:write")
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     *  @Groups("document:read")
+     * @Groups("document:write")
      */
     private $taille;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("document:write")
      */
     private $dateCreation;
 
     /**
      * @ORM\Column(type="string", length=255,nullable=true)
+     * 
+     *  @Groups("document:read")
+     * @Groups("document:write")
      */
     private $version;
 
@@ -66,11 +177,13 @@ class Document
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="document")
+     * @Groups("document:read")
      */
     private $commentaire;
 
     /**
      * @ORM\OneToMany(targetEntity=Tag::class, mappedBy="document")
+     * @Groups("document:read")
      */
     private $tag;
 
@@ -79,6 +192,7 @@ class Document
     /**
      * @ORM\ManyToOne(targetEntity=Repertoire::class, inversedBy="document")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("document:read")
      */
     private $repertoire;
 
@@ -86,12 +200,19 @@ class Document
 
     /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="documents")
+     * @Groups("document:read")
      */
     private $auteur;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\File(mimeTypes={"application/pdf"})     */
+     * @Assert\File(maxSize="1024k",mimeTypes={"application/pdf","image/jpg"})
+     * @Groups("document:read")
+     * @Vich\UploadableField(mapping="document_object", fileNameProperty="url")  
+    
+ 
+     
+ */
     private $file;
 
     

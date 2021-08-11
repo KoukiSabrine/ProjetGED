@@ -8,9 +8,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
+
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
+ * @UniqueEntity(fields={"username"}, message="It looks like your already have an account!")
+ * @ApiResource(
+ * normalizationContext={"groups"={"utilisateur:read"}},
+ * denormalizationContext={"groups"={"utilisateur:write"}}
+ * )
+
  */
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -18,32 +30,44 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("utilisateur:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * 
+     * @Groups("utilisateur:read")
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     * 
+     * @Groups("utilisateur:read")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * 
+     * @Groups("utilisateur:read")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("utilisateur:read")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("utilisateur:read")
      */
     private $prenom;
 

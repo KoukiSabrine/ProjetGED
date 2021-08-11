@@ -7,6 +7,7 @@
             <style>
 body {
   font-family: "Lato", sans-serif;
+  
 }
 .sidenav {
   height: 100%;
@@ -59,6 +60,7 @@ button {
   font-weight:600;
   background:#fff;
 }
+ 
 
 </style>
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -94,21 +96,21 @@ button {
         {% endblock %}
 
 {% block body %}
- <section class="content">
+ <section class="content" style="background-color:white ;">
 
  
-    <h1>Projets</h1>
+    <h1>Liste Des Projets</h1>
 
 
-        <table class="table">
+        <table class="table" style="border-style: solid;order-width: 3px;border-color: white;">
                 <tbody>
                 <tr>
-                                <th>Id</th>
+                                <th colspan="1">Id</th>
                                 <th>Titre</th>
                                   <th>Etat</th>
                                    <th>niveau</th>
-                                  <th>Créé à <th>
-                                    <th>Date de lancement<th>
+                                  <th  width="6%">Créé à <th>
+                                    <th >Date de lancement<th>
                                      <th>Durée prévue<th>
                         
                 {% for projet in projets  %}
@@ -119,13 +121,13 @@ button {
                                 <td>{{ projet.titre }}</td>
                                 <td>{{ projet.etat }}</td>
                                 <td>{{ projet.niveau }}</td>
-                                <td>{{ projet.createdAt }}</td>
-                                <td>{{ projet.dateLancement }}</td>
+                                <td colspan="2">{{ projet.createdAt }}</td>
+                                <td colspan="2">{{ projet.dateLancement }}</td>
                                 <td>{{ projet.dureePrevue }}</td>
                                
                                  
                                
-                                <td> <a class="btn btn-primary" href="{{ path('Liste_Equipes', {id: projet.id}) }}">Equipes</a></td>
+                                <td> <a class="ion ion-ios-people-outline" href="{{ path('Liste_Equipes', {id: projet.id}) }}" style="font-size: 30px"></a></td>
 
                 </tr>
                          

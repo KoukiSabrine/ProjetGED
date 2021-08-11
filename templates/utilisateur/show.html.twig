@@ -97,8 +97,10 @@ button {
 {% block body %}
   <section class="content">
 
-    <h1>Utilisateur</h1>
-   <a class="ion-person-add" href="{{ path('utilisateur_new') }}" style="font-size: 50px;color:green"></a>
+    <h1>Utilisateurs</h1>
+   {# <a class="ion-person-add" href="{{ path('utilisateur_new') }}" style="font-size: 50px;color:green"></a> #}
+  <td><a class="ion-trash-a" href="{{ path('userEq_delete', {'id': eq.id}) }}" style="font-size: 20px;color:red"></a></td>
+
 
 
         <table class="table">
