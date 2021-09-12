@@ -57,6 +57,7 @@ class DocumentType extends AbstractType
 
                 },
                 'label'=>'Mots-clés',
+                
                 'by_reference'=>false,
                 'attr'=>[
                     'class'=>'select-tags'

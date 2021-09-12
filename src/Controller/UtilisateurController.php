@@ -44,6 +44,10 @@ use Dompdf\Options;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
+use Aws\Credentials\CredentialProvider;
+// use Aws\Exception\AwsException;
+// use Aws\S3\Exception\S3Exception;
+// use Aws\S3\S3Client;
 
 /**
 * @Route("/utilisateur")
@@ -366,6 +370,8 @@ return $this->render('projet/editProjet.html.twig',[
     {       
         //$list = $projetRepository->getEquipeByProjetId($projet->getId());
         $list=$projet->getEquipe();
+        $session->set('prUser',$projet);
+        //dd($session->get('prUser'));
         //$listUsers = $projetRepository->getUsersByEquipeId(1);
 
         
@@ -457,8 +463,9 @@ return $this->render('equipe/addEquipe.html.twig',[
 
 public function affectUser(Request $request,Session $session,Equipe $equipe): Response
 {
-        $projet=$session->get('prAdmin');
+        $projet=$session->get('prUser');
         //dd($projet);
+        //dd($session);
   $equipe=new Equipe();
   $form=$this->createForm(AffectToEquipeType::class,$equipe);
  
@@ -474,8 +481,13 @@ public function affectUser(Request $request,Session $session,Equipe $equipe): Re
 //dd($pp);
     
      $equipe->setProjet($pp);
-     
-          
+    
+     $m=$form->get('membre')->getData();
+          //dd($m);
+          //dd($equipe->getMembre());
+
+         $equipe->addMembre($m);
+         dd($equipe->getMembre());
       $em=$this->getDoctrine()->getManager();
     
       $em->persist($equipe);
@@ -488,7 +500,7 @@ public function affectUser(Request $request,Session $session,Equipe $equipe): Re
       
   }
 
-return $this->render('equipe/addEquipe.html.twig',[
+return $this->render('equipe/affectUser.html.twig',[
   'form'=>$form->createView()
 ]);
 }
@@ -887,8 +899,10 @@ public function newSousRepertoire(Request $request,Session $session): Response
    
       //$repertoire->setRepertoire($sr);
       //dd($repertoire);
+          //dd($reppp);
+
       $reppp->addSousRepertoire($repertoire);
-      dd('ok');
+      //dd('ok');
       //dd($repertoire->getSousRepertoire()) ;   
        //dd($reppp->getSousRepertoire()) ;
        //dd($reppp);  
@@ -1114,27 +1128,89 @@ return $this->render('document/addDocument.html.twig',[
                      
                      //$file=$document->getFile();
                      // return $this->redirectToRoute('home');
-                     $form = $this->createForm(EditDocumentType::class, $document);
+                     $doc=new Document();
+                     $form = $this->createForm(EditDocumentType::class, $doc);
                      $form->handleRequest($request);
                      $file=$form->get('file')->getData();
                      $etat=$form->get('Etat')->getData();
                      $version=$form->get('version')->getData();
+                     //dd($file);
 
-
+                //      $file=$form->get('file')->getData()
                      
-                       //dd( $document->getFile());
                      if ($form->isSubmitted() && $form->isValid()) {
 
                         //  $utilisateur = $this->getUser();
                         //  $document->setAuteur(  $utilisateur);
                         //dd($document);
+                        $file2=$form->get('file')->getData();
+                        $fichier = md5(uniqid()) . '.' . $file->guessExtension();
+                           //dd($fichier);
                       
                         $document->setVersion($version);
                         $document->setEtat($etat);
                         $document->setFile($file);
-                        
+                        $type=$form->get('file')->getData()->guessExtension();
+                        //dd($document);
+                       // $file3=$document->getFile()->getData();
+                         //$ff=md5(uniqid()) . '.' . $file3->guessExtension();
+                        $document->setType($type);
+                        $document->setNom($fichier);
+                        //dd( $file->guessExtension());
+                        //dd( $document);
                         
                         //dd($v);
+
+
+
+
+/******** start hist */
+
+
+//$doc = $this->getDoctrine()->getRepository(Document::class);
+//$pp=$doc->findOneBy(["id"=>$id]);
+ 
+$histo=new Historique();
+//   $form=$this->createForm(HistoriqueType::class,$histo);
+//   $form->handleRequest($request);
+ 
+//   $ddd=$form->get('document')->getData();
+
+        //$file=$form->get('document')->get('file')->getData();
+
+        // $v1=$ddd->getVersion();
+        // $e1=$ddd->getEtat();
+         $aut=$this->getUser();
+        // $remarque=$form->get('remarque')->getData();
+       
+       $document->setFile($file);
+
+
+
+
+
+        $dateModif= $this->startDate = new \DateTime();
+        
+
+        $histo->setDateModif($dateModif);
+        $histo->setVersionDoc($version);
+        $histo->setDocument($document);
+        $histo->setAut($aut);
+        $histo->setEtatDoc($etat);
+        // $histo->setRemarque('heyyy');
+        $histo->setFile($file);
+
+   //dd($histo);
+          
+      $em=$this->getDoctrine()->getManager();
+    
+      $em->persist($histo);
+      //dd('ok');  
+//       $em->flush();
+            
+
+/****** end hist */
+
                         
                        
                              $this->getDoctrine()->getManager()->flush();
@@ -1190,6 +1266,147 @@ return $this->render('document/addDocument.html.twig',[
 
         return new Response();
     }
+
+
+     /**
+     * @Route("/document/saveAmazon",name="save-amazon")
+     * @param Request $request
+     * @return Response
+     */
+
+//     public function saveAmazon(Request $request,Session $session): Response
+//       {
+//         $document=new Document();
+        
+
+//         $form=$this->createForm(DocumentType::class,$document);
+//         $form->handleRequest($request);
+
+//         // $rep=$session->get('repertoire');
+//         // $package = new Package(new EmptyVersionStrategy());
+        
+//         if($form->isSubmitted() && $form->isValid()){
+            
+//              // On récupère les images transmises
+            
+//             $file=$form->get('file')->getData();
+//             //dd($file);
+//             //$session->set('file',$file);
+           
+//         //     $taille=$file->getSize();
+//         //     $type=$file->guessExtension();
+//         //     $utilisateur = $this->getUser();
+//             //$dateCreation=filectime($file);
+//         //     $dateCreation= $this->startDate = new \DateTime();
+//             //dd( $dateCreation);
+//         //     $doc = $this->getDoctrine()->getRepository(Repertoire::class);
+//         //     $pp=$doc->findOneBy(["id"=>$rep->getId()]);
+
+//         //     $document->setTaille($taille);
+//         //     $document->setType($type);
+//         //     $document->setAuteur($utilisateur);
+//         //     $document->setRepertoire($pp);
+//         //     $document->setUrl($file);
+//         //     $document->setDateCreation($dateCreation);
+//         //     $document->setUrlComplet("");
+        
+//                 // On génère un nouveau nom de fichier
+                
+//                 $fichier = md5(uniqid()) . '.' . $file->guessExtension();
+//         // dd($fichier);
+//                 //dd( $package->getUrl('$fichier'));
+//                 // On copie le fichier dans le dossier uploads
+//                 $file->move(
+//                     $this->getParameter('images_directory'),
+//                     $fichier
+//                 );
+/**********  AMAZON  */
+//                 $bucket = getenv('S3_BUCKET');
+//                 try {
+//                         $s3Client = new S3Client([
+//                           'region' => 'us-east-2',
+//                           'version' => 'latest',
+//                           'credentials' => CredentialProvider::env() 
+//                         ]);
+//                         $s3Client->putObject([
+//                           'Bucket' => $bucket,
+//                           'Key' => $fichier,
+//                           'SourceFile' => $this->tmpFolderPath . $fichier,
+//                         ]);
+//                       } catch (AwsException $e) {
+//                         echo $e->getMessage() . "\n";
+//                         return false;
+//                       }
+
+// /*********** AMAZON */
+
+//                 // On stocke l'image dans la base de données (son nom)
+              
+//                 // $document->setNom($fichier);
+//                 // $document->setFile($file);
+//                 // $session->set('doc2',$document);
+               
+               
+//            // }
+
+//         //     $entityManager = $this->getDoctrine()->getManager();
+//         //     $entityManager->persist($document);
+//         //     $entityManager->flush();
+
+//             return $this->redirectToRoute('home');
+
+//         }
+
+
+// return $this->render('document/addDocument.html.twig',[
+//         'form'=>$form->createView() ,'idDoc'=>$document->getId()
+//     ]);
+//     }
+
+
+     /**
+     * @Route("/{id}/getAmazon", name="get-amazon", methods={"GET"})
+     *
+     */
+
+// public function getAmazon(ProjetRepository $projetRepository,Repertoire $repertoire,Session $session): Response
+// {       
+
+//     //$idEq=$equipe->getId();
+//     //$list=$projetRepository->getRepertoiresByEquipeId(4);
+//     //$json = json_encode($list);
+
+//     $idRep=$repertoire->getId();
+//     //$listDoc=$projetRepository->getDocumentsByRepertoireId( $idRep);
+//     $listDoc=$repertoire->getDocument();
+//      $equipe=$session->get('equipe');
+//      $utilisateur = $this->getUser();
+
+//    /*******AMAZON */
+
+//    try {
+//         // return $this->s3Client->getObject(
+//         //   [
+//         //     'Bucket' => $this→privateBucketName,
+//         //     'Key' => $documentName
+//         //   ]
+//         // );
+//       } catch(S3Exception $e) { 
+//         //Hendle your exception here 
+//       }
+    
+   
+
+
+/*******AMAZON */
+     
+//     return $this->render('document/documentList.html.twig',  [
+//            'documents' =>  $listDoc,'equipe'=>$equipe,'user'=>$utilisateur
+//     ]);  
+// }
+
+
+
 
 
 
@@ -1545,19 +1762,33 @@ return $this->render('historique/addHistorique.html.twig',[
                 
         }
 
+        /**
+         * @Route("/{id}", name="utilisateur_show223", methods={"GET"})
+         */
+        public function show22(Utilisateur $utilisateur): Response
+        {
+                //accès géré dans le security.yaml
+                return $this->render('utilisateur/utilisateursListForAdmin.html.twig', [
+                'utilisateur' => $utilisateur,
+                ]);
+                
+        }
+
             /**
-     * @Route("/showUser", name="Liste_users", methods={"GET"})
+     * @Route("/showUsers22", name="Liste_users222", methods={"GET"})
      *
      */
-//     public function showUsers(ProjetRepository $projetRepository): Response
-//     {
-        
-//         $list=$projetRepository->getUsers();
-//         return $this->render('utilisateur/userList.html.twig',  [
-//                 'projets' =>$list   ]); 
+    public function showUsers22(UtilisateurRepository $utilisateurRepository): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Product::class);
+        //dd('ok');
+        $list=$repository->findAll();
+        dd($list);
+        return $this->render('utilisateur/utilisateursListForAdmin.html.twig',  [
+                'allUsers' =>$list   ]); 
 
             
-//     }
+    }
 
 
         

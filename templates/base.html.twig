@@ -88,8 +88,10 @@
                <center> <img src="/dist/img/user7-128x128.jpg" class="img-circle" alt="User Image" style="width: 50px ; height: 50px"></center>
 
                <center> <p >
-                  {{app.user|title}}
-                  <small>Membre dépuis Nov. 2012</small>
+                  <small>Bienvenue                   {{app.user|title}}
+ dans votre super site</small>
+
+              
                 </p></center>
               </li>
               <!-- Menu Body -->
@@ -140,6 +142,7 @@
         <ul class="nav navbar-nav">
          
           <!-- Control Sidebar Toggle Button -->
+          
           {# <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
           </li> #}
@@ -168,7 +171,7 @@
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header"> NAVIGATION PRINCIPALE</li>
         <li class="active treeview">
           <a href="#">
             <i class="fa fa-dashboard" style="color:white"></i> <span class="text-light ">Tableau de bord</span>
@@ -239,6 +242,10 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ path('utilisateur_edit', {'id': app.user.id}) }}" style="color:white"><i class="fa fa-circle-o" style="color:white"></i> Modifier mon compte</a></li>
+                  {% if is_granted('ROLE_ADMIN') %}
+           {# <li><a href="{{ path('utilisateur_show223', {'id': app.user.id}) }}" style="color:white"><i class="fa fa-circle-o" style="color:white"></i> Consulter utilisateurs</a></li> #}
+
+                  {% endif %}
             
           </ul>
         </li>
@@ -296,10 +303,10 @@
                 </div>
                 
                 {# <footer class="navbar-light bg-light">
-                        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+                        <div class="footer-copyright text-center py-3">© 2021 Copyright:
                                 <a href="https://www.univ-orleans.fr/iut-orleans/informatique/intra/tuto/php/"> Gérard Rozsavolgyi & Sylvain Austruy</a>
                         </div>
-                </footer> #}</div>
+                </footer></div> #}
                         {% block javascripts %}
                         <script
                                 src="https://code.jquery.com/jquery-3.5.1.min.js"

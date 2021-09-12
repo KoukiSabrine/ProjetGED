@@ -96,14 +96,15 @@ button {
 
 {% block body %}
  <section class="content">
-        <h1>Ajouter un commentaire</h1>
+        {# <h1>Ajouter un commentaire</h1> #}
+        <legend>Ajouter un commentaire</legend>
         <fieldset>
                {# <legend>Modification</legend>#}
                 {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
                 {# utilisation de classes bootstrap pour la mise en forme #}
                         <div class="row">
                          <div class="col-12">
-                                        {{ form_label(form.comment) }}
+                                        {# {{ form_label(form.comment,'Commentaire') }} #}
                                         {{ form_widget(form.comment) }}
                                 </div>
                                  
@@ -119,8 +120,8 @@ button {
                                        
                                 </div>
                         </div>
-                        <br>
-                            <div class="col-12"> <button class="btn btn-success">{{ button_label|default('Save') }}</button></div>
+                        <br><br>
+                            <div class="col-12"> <button class="btn btn-primary" style="margin-left:-480px">{{ button_label|default('Ajouter') }}</button></div>
                 {{ form_end(form) }}
         </fieldset>
 

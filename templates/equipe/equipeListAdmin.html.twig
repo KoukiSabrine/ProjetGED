@@ -60,6 +60,35 @@ button {
   background:#fff;
 }
 
+/***** users****/
+            .ion-android-person {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.ion-android-person .tooltiptext {
+  visibility: hidden;
+  width: 60px;
+  height: 30px;
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.ion-android-person:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end users ****/
+
 </style>
 
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -134,7 +163,7 @@ button {
 
 
                                 <td> <a class="ion-folder" href="{{ path('Liste_Repertoires', {id: equipe.id}) }}" style="font-size: 30px;color:khaki"></a></td>
-                                <td> <a class="ion-android-person" href="{{ path('Liste_Users', {id: equipe.id}) }}" style="font-size: 30px"></a></td>
+                                <td> <a class="ion-android-person" href="{{ path('Liste_Users', {id: equipe.id}) }}" style="font-size: 30px"><span class="tooltiptext" style="font-size: 0.4em;">Utilisateurs</span></a></td>
                                 
                                  
                                

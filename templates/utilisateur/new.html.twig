@@ -97,46 +97,49 @@ button {
 {% block body %}
   <section class="content">
 
-    <h1>Inscription</h1>
+    {# <h1>Inscription</h1> #}
 
         <fieldset>
-                <legend>Inscrivez vous</legend>
+                {# <legend>Inscrivez vous</legend> #}
+                 <center> <legend style="margin-left:-110px;">Ajouter un nouveau utilisateur</legend></center>
+                               <center>  <img src="/images/add-user.png" style="width:70px;height:70px;margin-left:-90px;"/> <center>
                 {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
                 {# utilisation de classes bootstrap pour la mise en forme #}
                 <div class="row">
-
-                <div class="col-12">
+<center>
+                <div class="col-6" style="width:1000px; ">
                                 {{ form_label(form.nom) }}
                                 {{ form_widget(form.nom) }}
                                 {{ form_errors(form.nom) }}
                         </div>
-                        <div class="col-12">
-                                {{ form_label(form.prenom) }}
+                        <div class="col-6" style="width:1000px">
+                                {{ form_label(form.prenom,'Prénom') }}
                                 {{ form_widget(form.prenom) }}
                                 {{ form_errors(form.prenom) }}
                         </div>
 
 
-                        <div class="col-12">
-                                {{ form_label(form.username) }}
+                        <div class="col-6" style="width:1000px">
+                                {{ form_label(form.username,'Nom d\'utilisateur') }}
                                 {{ form_widget(form.username) }}
                                 {{ form_errors(form.username) }}
                         </div>
-                        <div class="col-12">
-                                {{ form_label(form.password) }}
+                        <div class="col-6" style="width:1000px">
+                                {{ form_label(form.password,'Mot de passe') }}
                                 {{ form_widget(form.password) }}
                         </div>
-                        <div class="col-12">
-                                <label for="verifpass">Saisir une seconde fois le mot de passe</label>
-                                <input type="password" id="verifpass" required>
+                        <div class="col-6" style="width:1000px">
+                                <label for="verifpass">Confirmer le mot de passe</label>
+                                <input type="password" id="verifpass" required style="width:470px">
                         </div>
-                </div><br>
+                </div></center>
+                <br><br>
                 
-             <div class="col-12">   <button class="btn btn-success">{{ button_label|default('S\'enregistrer') }}</button></div>
+             <div class="col-12">   <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button></div>
                 {{ form_end(form) }}
         </fieldset>
 <br>
-        <a class="btn btn-info" href="{{ path('home') }}">Page d'accueil</a>
+        {# <a class="btn btn-info" href="{{ path('home') }}">Page d'accueil</a> #}
         </section>
 {% endblock %}
 {% block javascripts %}

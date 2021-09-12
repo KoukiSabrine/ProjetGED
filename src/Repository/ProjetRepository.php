@@ -134,8 +134,9 @@ class ProjetRepository extends ServiceEntityRepository
     public function getUsers()  {
       $em = $this->getEntityManager();
       $rsm = new ResultSetMapping();
-      $sql2 = "SELECT DISTINCT u.id,u.nom,u.prenom  FROM utilisateur as u
+      $sql2 = "SELECT DISTINCT u.id,u.nom,u.prenom,u.roles  FROM utilisateur as u
             
+        
               ";
       $rsm->addScalarResult('id', 'id');
       $rsm->addScalarResult('nom', 'nom');

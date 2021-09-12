@@ -53,9 +53,15 @@
 {% block body %}
  <section class="content">
 
-        <h1>Modifier votre document</h1>
+        {# <h1>Modifier votre document</h1> #}
+                
+                      
+        <legend> <img src="/images/editDocIcon.png" style="width:30px;height:30px;"/> Modifier votre document</legend>
+
+                                                
+
         <fieldset>
-                <legend>Modification</legend>
+
                 {{ form_start(form) }}
               <div class="row">
                          <div class="col-12">
@@ -102,11 +108,11 @@
                                       {#  {{ form_label(form.repertoire) }}
                                         {{ form_widget(form.repertoire) }}#}
                                 </div>
-                                 <div class="col-12">
+                                 {# <div class="col-12">
                                          {{ form_label(form.tag) }}
                                         {{ form_widget(form.tag) }} 
-                                </div>
-
+                                </div> #}
+<br>
                                 <div class="col-12">
                                         {{ form_label(form.file) }}
                                         {{ form_widget(form.file) }}
@@ -118,7 +124,7 @@
                                 </div>
                         </div>
                         <br>
-                        <div class="col-12"><button class="btn btn-success">{{ button_label|default('Mettre à jour') }}</button></div>
+                        <div class="col-12"><button class="btn btn-primary">{{ button_label|default('Modifier') }}</button></div>
                 {{ form_end(form) }}
         </fieldset>
         </section>

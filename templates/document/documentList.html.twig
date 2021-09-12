@@ -4,6 +4,153 @@
             {#{{ encore_entry_link_tags('app') }}#}
             <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
             <style>
+
+/***** edit****/
+            .ion-edit {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.ion-edit .tooltiptext {
+  visibility: hidden;
+  width: 60px;
+    height: 30px;
+
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.ion-edit:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end edit ****/
+
+
+/***** delete****/
+            .ion-trash-a {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.ion-trash-a .tooltiptext {
+  visibility: hidden;
+  width: 60px;
+  height: 30px;
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.ion-trash-a:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end delete ****/
+
+/***** comment****/
+            .fa-comments {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.fa-comments .tooltiptext {
+  visibility: hidden;
+  width: 50px;
+  height: 30px;
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.fa-comments:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end comment ****/
+
+/***** historique****/
+                .ion-calendar {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.ion-calendar .tooltiptext {
+  visibility: hidden;
+  width: 50px;
+  height: 30px;
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.ion-calendar:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end historique ****/
+
+/***** download****/
+            .ion-android-download {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.ion-android-download .tooltiptext {
+  visibility: hidden;
+  width: 50px;
+  height: 30px;
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.ion-android-download:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end download ****/
 body {
   font-family: "Lato", sans-serif;
 }
@@ -14,7 +161,7 @@ body {
   z-index: 1;
   top: 10;
   left: 0;
-  background-color: #111;
+  background-color: #818181;
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -128,22 +275,22 @@ button {
                                 {# {{dump(user)}} #}
                                      {# {% if ((equipe.getGerant()) is same as (user.username)) or  (is_granted('ROLE_ADMIN')) %} #}
 
-                                <td><a class="ion-trash-a" href="{{ path('document_delete', {'id': document.id}) }}" style="font-size: 20px;color:red"></a></td>
+                                <td><a class="ion-trash-a" href="{{ path('document_delete', {'id': document.id}) }}" style="font-size: 20px;color:red"><span class="tooltiptext" style="font-size: 0.6em;">Supprimer</span></a></td>
                                 {# {% endif %} #}
                                 {# <td><a class="btn btn-warning mt-2" href="{{ path('document_update', {'id': document.id}) }}">Modifier</a></td> #}
                           {# <td><a class="btn btn-warning" href="{{ path('edit_new' , {'id': document.id})}}">Mettre à jour</a></td> #}
-                              <td><a class="ion-edit" href="{{ path('edit_new', {'id': document.id}) }}" style="font-size: 20px;color:orange"></a></td>
+                              <td><a class="ion-edit" href="{{ path('document_update', {'id': document.id}) }}" style="font-size: 20px;color:orange"> <span class="tooltiptext" style="font-size: 0.4em;">Mettre à jour </span></a></td>
 
 
                                 {#<td><a class="btn btn-primary mt-2" href="{{ path('document_download', {'id': document.id}) }}">Télécharger</a></td>#}
                                 {# <td><a class="btn btn-primary mt-2" href="{{ path('tag_new', {'id': document.id}) }}">Add Tag</a></td> #}
                                 {# <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Comments', {'id': document.id}) }}">Commentaires</a></td> #}
-                              <td><a class=" fa fa-comments" href="{{ path('Liste_Comments', {'id': document.id}) }}" style="font-size: 20px"></a></td>
+                              <td><a class=" fa fa-comments" href="{{ path('Liste_Comments', {'id': document.id}) }}" style="font-size: 20px"><span class="tooltiptext" style="font-size: 0.4em;">Commentaire </span></a></td>
 
                               {# <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Historique', {'id': document.id}) }}">Historique</a></td> #}
                             <td><a class="ion-calendar" href="{{ path('Liste_Historique', {'id': document.id}) }}" style="font-size: 20px"></a></td>
 
-                              <td><a class="ion-android-download" href="{{asset('images/' ~ document.nom)}}" style="font-size: 20px;"></a></td>
+                              <td><a class="ion-android-download" href="{{asset('images/' ~ document.nom)}}" style="font-size: 20px;"><span class="tooltiptext" style="font-size: 0.5em;">Télécharger</span></a></td>
 
                         {# <td><a class="btn btn-primary mt-2" href="{{ path('Liste_Comments', {'id': document.id}) }}">  Commentaires</a></td> #}
 

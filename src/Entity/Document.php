@@ -16,88 +16,11 @@ use App\Controller\DocumentController;
 
 /**
  * @ORM\Entity(repositoryClass=DocumentRepository::class)
- *  @Vich\Uploadable
- * *  @ApiResource(
- *     iri="https://schema.org/Document",
- *     shortName="Place",
- *     collectionOperations={
- *          "post" = {
- *              "denormalization_context" = {
- *                  "groups"={
- *                      "document:collection:post"
- *                  }
- *              }
- *          },
- *          "get" = {
- *              "normalization_context" = {
- *                  "groups"={
- *                      "document:collection:get"
- *                  }
- *              }
- *          }
- *     },
- *     itemOperations={
- *          "get",
- *          "DocumentController::OPERATION_NAME" = {
- *              "groups"={"logo:post"},
- *              "method"="POST",
- *              "path"="/documents/{id}/file",
- *              "controller"=DocumentController::class,
- *              "deserialize"=false,
- *              "validation_groups"={"Default", "logo_create"},
- *              "openapi_context"={
- *                  "summary"="Uploads logo file to given Document resource",
- *                  "requestBody"={
- *                      "content"={
- *                          "multipart/form-data"={
- *                              "schema"={
- *                                  "type"="object",
- *                                  "properties"={
- *                                      "logoFile"={
- *                                          "type"="string",
- *                                          "format"="binary"
- *                                      }
- *                                  }
- *                              }
- *                          }
- *                      }
- *                  }
- *              }
- *          }
- *     }
+ * * @ApiResource(
+ * normalizationContext={"groups"={"document:read"}},
+ * denormalizationContext={"groups"={"document:write"}}
  * )
- * 
  */
-// #[ApiResource(
-    // iri: 'http://schema.org/MediaObject',
-    // normalizationContext: ['groups' => ['media_object:read']],
-    // itemOperations: ['get'],
-    // collectionOperations: [
-    //     'get',
-    //     'post' => [
-    //         'controller' => DocumentController::class,
-    //         'deserialize' => false,
-    //         'validation_groups' => ['Default', 'media_object_create'],
-    //         'openapi_context' => [
-    //             'requestBody' => [
-    //                 'content' => [
-    //                     'multipart/form-data' => [
-    //                         'schema' => [
-    //                             'type' => 'object',
-    //                             'properties' => [
-    //                                 'file' => [
-    //                                     'type' => 'string',
-    //                                     'format' => 'binary',
-    //                                 ],
-    //                             ],
-    //                         ],
-    //                     ],
-    //                 ],
-    //             ],
-    //         ],
-    //     ],
-    // ]
-// )]
 class Document
 {
 
@@ -208,7 +131,7 @@ class Document
      * @ORM\Column(type="string", length=255)
      * @Assert\File(maxSize="1024k",mimeTypes={"application/pdf","image/jpg"})
      * @Groups("document:read")
-     * @Vich\UploadableField(mapping="document_object", fileNameProperty="url")  
+    
     
  
      

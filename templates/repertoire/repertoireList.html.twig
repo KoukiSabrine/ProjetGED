@@ -65,6 +65,64 @@ button {
   background:#fff;
 }
 
+/***** delete****/
+            .ion-trash-a {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.ion-trash-a .tooltiptext {
+  visibility: hidden;
+  width: 60px;
+  height: 30px;
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.ion-trash-a:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end delete ****/
+
+/***** doc****/
+            .ion-android-document {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted white;
+}
+
+.ion-android-document .tooltiptext {
+  visibility: hidden;
+  width: 60px;
+  height: 30px;
+  background-color: #C0C0C0;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.ion-android-document:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+/***** end doc ****/
+
 </style>
 
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -106,7 +164,9 @@ button {
                                   {# <span class="fa fa-folder-open"  style="font-size: 30px;color:khaki"></span><br><br> #}
 
 
-    <h1>Repertoires</h1>
+    {# <h1>Repertoires</h1> #}
+     <center>   <legend style="margin-left:-30px;font-size: 30px;">Répertoires</legend></center>
+
     {% if ((equipe.getGerant()) is same as (user)) or  (is_granted('ROLE_ADMIN')) %}
     <a class="ion-android-add-circle" href="{{ path('repertoire_new') }}" style="font-size: 30px;color:green"></a>
    
@@ -136,10 +196,10 @@ button {
                                 {# <td><a class="btn btn-primary" href="{{ path('Liste_SousRepertoires', {id: repertoire.id}) }}" >Sous Répertoires</a></td> #}
                                 <td> <a class="ion-folder" href="{{ path('Liste_SousRepertoires', {id: repertoire.id}) }}" style="font-size: 30px;color:khaki"></a></td>
 
-                                <td><a class="ion-android-document" href="{{ path('Liste_Documents', {id: repertoire.id}) }}" style="font-size: 20px"></a></td>
+                                <td><a class="ion-android-document" href="{{ path('Liste_Documents', {id: repertoire.id}) }}" style="font-size: 20px"><span class="tooltiptext" style="font-size: 0.6em;">Documents</span></a></td>
                                     {% if ((equipe.getGerant()) is same as (user)) or  (is_granted('ROLE_ADMIN')) %}
 
-                                <td><a class="ion-trash-a" href="{{ path('repertoire_delete', {'id': repertoire.id}) }}" style="font-size: 20px;color:red"></a></td>
+                                <td><a class="ion-trash-a" href="{{ path('repertoire_delete', {'id': repertoire.id}) }}" style="font-size: 20px;color:red"><span class="tooltiptext" style="font-size: 0.6em;">Supprimer</span></a></td>
                                     {% endif %}
 
 

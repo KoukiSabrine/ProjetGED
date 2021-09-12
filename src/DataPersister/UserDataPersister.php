@@ -48,6 +48,11 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
         return $document;
     }
 
+   
+    // public getProjetByUser($id): Projet{
+
+    // }
+
 
     /**
      * @param Document $data
@@ -63,6 +68,9 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
         $this->em->persist($data);
         $this->em->flush();
         }
+        // else if($data instanceof Projet){
+
+        // }
     }
 
     public function remove($data, array $context = [])

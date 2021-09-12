@@ -64,7 +64,7 @@
 
  <section class="content">
 
-        <h1>Ajouter un document</h1>
+        <legend>Ajouter un document</legend>
         <fieldset>
                {# <legend>Modification</legend>#}
                 {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
@@ -124,9 +124,9 @@
                                                         {{ form_widget(tagField) }}
                                                 </div> 
                                                 {% endfor %}#}
-                                </div><br>
+                                </div><br><br>
                                   {# <input type="text" data-role="tagsinput" value=""> #}
-                                  <br>
+                                  <br><br>
                                 <div class="col-12">
                                         {{ form_label(form.file) }}
                                         {{ form_widget(form.file) }}
@@ -137,7 +137,7 @@
                         <br>
                       
                         
-                      <div class="col-12">  <button class="btn btn-success">{{ button_label|default('Save') }}</button></div>
+                      <div class="col-12">  <button class="btn btn-primary">{{ button_label|default('Ajouter') }}</button></div>
                 {{ form_end(form) }}
         </fieldset>
 

@@ -5,7 +5,9 @@
 {% block body %}
      <form method="post" class="mt-5">
                 <fieldset>
-                        <legend>Connectez vous</legend>
+                       <center> <legend>Connectez vous</legend></center>
+       <center>  <img src="images/login.png" style="width:70px;height:70px"/> <center>
+
 
                         {% if error %}
                                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -18,19 +20,19 @@
                         {% else %}
                                 <div class="row">
                                         <div class="col-12 mt-3">
-                                                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus placeholder="pseudo">
+                                          <center>      <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus placeholder="pseudo" style="width:300px"></center>
                                         </div>
                                         <div class="col-12 mt-3 mb-3">
-                                                <input type="password" name="password" id="inputPassword" class="form-control" required placeholder="mot de passe">
+                                              <center>  <input type="password" name="password" id="inputPassword" class="form-control" required placeholder="mot de passe" style="width:300px"></center>
                                         </div>
                                 </div>
-                                <button class="btn btn-success" type="submit">
+                              <center>  <button class="btn btn-primary" type="submit">
                                         Connexion
-                                </button>
+                                </button></center>
                         {% endif %}
 
                         <input type="hidden" name="_csrf_token"
-                        value="{{ csrf_token('authenticate') }}"
+                        value="{{ csrf_token('authenticate') }}" style="width:300px"
                         >
 
                         {#
