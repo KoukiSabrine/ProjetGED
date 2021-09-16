@@ -54,7 +54,7 @@
     
                          
    {# {% if ((equipe.getGerant()) is same as (user)) or  (is_granted('ROLE_ADMIN')) %} #}
-    <a class="ion-android-add-circle" href="{{ path('sous_repertoire_new') }}" style="font-size: 30px;color:green"><i style="font-size: 20px;color:green">Répertoire<i></a>&emsp;
+    <a class="ion-android-add-circle" href="{{ path('sous_repertoire_new', {'id': idRepertoire}) }}" style="font-size: 30px;color:green"><i style="font-size: 20px;color:green">Répertoire<i></a>&emsp;
     <a class="ion-android-add-circle" href="{{ path('document_new') }}" style="font-size: 30px;color:green"><i style="font-size: 20px;color:green">Document<i></a>
 
     

@@ -97,7 +97,7 @@ button {
 {% block body %}
   <section class="content">
 
-        <h1>Mettre à jour une équipe</h1>
+        <legend>Mettre à jour une équipe</legend>
         <fieldset>
                {# <legend>Modification</legend>#}
                 {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
@@ -117,12 +117,12 @@ button {
                                        {{ form_widget(form.projet) }}  #}
                                 </div>
                                 <div class="col-12">
-                                        {{ form_label(form.gerant) }}
+                                        {{ form_label(form.gerant,'Gérant') }}
                                         {{ form_widget(form.gerant) }}
                                 </div>
 
                                  <div class="col-12">
-                                        {{ form_label(form.membre) }}
+                                        {{ form_label(form.membre,'Membres') }}
                                         {{ form_widget(form.membre) }}
                                 </div>
                                
@@ -131,8 +131,8 @@ button {
                                        
                                 </div>
                         </div>
-                        <br>
-                       <div class="col-12"> <button class="btn btn-success">{{ button_label|default('Mettre à jour une équipe') }}</button></div>
+                        <br><br>
+                       <div class="col-12"> <button class="btn btn-primary" style="margin-left:-450px;">{{ button_label|default('Mettre à jour') }}</button></div>
                 {{ form_end(form) }}
         </fieldset>
 

@@ -97,7 +97,7 @@ button {
 {% block body %}
   <section class="content">
 
-        <h1>Supprimer Utilisateur</h1>
+        <legend>Supprimer Utilisateur</legend>
         <fieldset>
                {# <legend>Modification</legend>#}
                 {{ form_start(form, {'attr': {'id': 'new_edit_utilisateur'}}) }}
@@ -122,7 +122,7 @@ button {
                                 </div> #}
 
                                  <div class="col-12">
-                                        {{ form_label(form.membre) }}
+                                        {{ form_label(form.membre,'Membres') }}
                                         {{ form_widget(form.membre) }}
                                 </div>
                                
@@ -131,8 +131,8 @@ button {
                                        
                                 </div>
                         </div>
-                        <br>
-                       <div class="col-12"> <button class="btn btn-success">{{ button_label|default('Supprimer Utilisateur') }}</button></div>
+                        <br><br>
+                       <div class="col-12"> <button class="btn btn-primary" style="margin-left:-460px;">{{ button_label|default('Supprimer ') }}</button></div>
                 {{ form_end(form) }}
         </fieldset>
 

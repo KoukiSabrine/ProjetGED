@@ -104,12 +104,7 @@ class Document
      */
     private $commentaire;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Tag::class, mappedBy="document")
-     * @Groups("document:read")
-     */
-    private $tag;
-
+    
     
 
     /**
@@ -137,6 +132,13 @@ class Document
      
  */
     private $file;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class)
+     */
+    private $tag;
+
+    
 
     
 
@@ -279,35 +281,9 @@ class Document
         return $this;
     }
 
-    /**
-     * @return Collection|Tag[]
-     */
-    public function getTag(): Collection
-    {
-        return $this->tag;
-    }
+    
 
-    public function addTag(Tag $tag): self
-    {
-        if (!$this->tag->contains($tag)) {
-            $this->tag[] = $tag;
-            $tag->setDocument($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTag(Tag $tag): self
-    {
-        if ($this->tag->removeElement($tag)) {
-            // set the owning side to null (unless already changed)
-            if ($tag->getDocument() === $this) {
-                $tag->setDocument(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
    
 
@@ -357,5 +333,31 @@ class Document
     {
         return (string) $this->getNom();
     }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTag(): Collection
+    {
+        return $this->tag;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tag->removeElement($tag);
+
+        return $this;
+    }
+
+    
    
 }

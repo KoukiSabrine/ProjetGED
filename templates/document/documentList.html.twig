@@ -273,10 +273,10 @@ button {
                                 <td>{{ document.url }}</td>
                                 {# {{dump(equipe.getGerant())}} #}
                                 {# {{dump(user)}} #}
-                                     {# {% if ((equipe.getGerant()) is same as (user.username)) or  (is_granted('ROLE_ADMIN')) %} #}
+                                     {% if ((equipe.getGerant().prenom) is same as user.prenom ) or  (is_granted('ROLE_ADMIN')) %}
 
                                 <td><a class="ion-trash-a" href="{{ path('document_delete', {'id': document.id}) }}" style="font-size: 20px;color:red"><span class="tooltiptext" style="font-size: 0.6em;">Supprimer</span></a></td>
-                                {# {% endif %} #}
+                                {% endif %}
                                 {# <td><a class="btn btn-warning mt-2" href="{{ path('document_update', {'id': document.id}) }}">Modifier</a></td> #}
                           {# <td><a class="btn btn-warning" href="{{ path('edit_new' , {'id': document.id})}}">Mettre à jour</a></td> #}
                               <td><a class="ion-edit" href="{{ path('document_update', {'id': document.id}) }}" style="font-size: 20px;color:orange"> <span class="tooltiptext" style="font-size: 0.4em;">Mettre à jour </span></a></td>

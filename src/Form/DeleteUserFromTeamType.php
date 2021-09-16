@@ -25,6 +25,22 @@ class DeleteUserFromTeamType extends AbstractType
             //         return $utilisateur->getPrenom();
             //     }])
             //->add('membre',HiddenType::class)
+            // ->add('membre',EntityType::class,[
+            //     'class' => Utilisateur::class,
+                
+            //     'multiple'=>true,
+            //     //'expanded'=>true,
+            //     'query_builder'=>function(EntityRepository $er){
+            //         return $er->createQueryBuilder('t')
+            //         ->orderBy('t.prenom','ASC');
+
+            //     },
+            //     'label'=>'Membre',
+            //     'by_reference'=>false,
+            //     'attr'=>[
+            //         'class'=>'select-tags'
+            //     ]])
+
             ->add('membre',EntityType::class,[
                 'class' => Utilisateur::class,
                 

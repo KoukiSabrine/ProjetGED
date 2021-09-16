@@ -101,10 +101,12 @@ button {
             <legend>Membres</legend>
 
    {# <a class="ion-person-add" href="{{ path('utilisateur_new') }}" style="font-size: 50px;color:green"></a> #}
+               {% if ((eq.getGerant().prenom) is same as u.prenom ) or  (is_granted('ROLE_ADMIN')) %}
   <div>
-  <a class="ion ion-person-add" href="{{ path('equipe_affect', {'id': eq.id}) }}" style="font-size: 30px;color:green"></a>&emsp;
+  <a class="ion ion-person-add" href="{{ path('assign_user', {'id': eq.id}) }}" style="font-size: 30px;color:green"></a>&emsp;
   <a class="ion-trash-a" href="{{ path('userEq_delete', {'id': eq.id}) }}" style="font-size: 20px;color:red"></a>
        </div>
+           {% endif %}
 
 
 
@@ -129,8 +131,8 @@ button {
 
 
                                  <th>Id</th>
-                                <th>nom</th>
-                                  <th>prenom</th>
+                                <th>Nom</th>
+                                  <th>Prénom</th>
                                  
                                    
                         </tr> 

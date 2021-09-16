@@ -32,11 +32,7 @@ class Tag
      */
     private $tag;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Document::class, inversedBy="tag")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $document;
+    
 
     public function getId(): ?int
     {
@@ -55,17 +51,7 @@ class Tag
         return $this;
     }
 
-    public function getDocument(): ?Document
-    {
-        return $this->document;
-    }
-
-    public function setDocument(?Document $document): self
-    {
-        $this->document = $document;
-
-        return $this;
-    }
+    
     // public function __toString()
     // {
     //     return $this->name;
